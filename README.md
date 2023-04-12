@@ -35,6 +35,6 @@
 
 **Dokumentation for pluginnet kan findes her:**
 <br>
-<a href="https://tandhjulet.gitbook.io/bande-plugin-docs/" style="margin-left:20px">Plugin Docs</a>
+<a href="https://tandhjulet.gitbook.io/bande-plugin-docs/">Plugin Docs</a>
 <br>
-<a href="http://62.243.56.81/newjavadocs/" target="_blank" style="margin-left:20px">Java Docs</a>
+<a href="http://62.243.56.81/newjavadocs/">Java Docs</a>
