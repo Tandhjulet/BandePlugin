@@ -1,0 +1,211 @@
+dynamic_items:
+  member_list_format: "&d&l • &8[&7{0}&8] &f{1}"
+  no_invites: "&cIngen inviteringer"
+  invites_name: "&d&l%name%"
+  invites:
+    - "&fBank: &d$%bank%"
+    - "&f"
+    - "&fMedlemmer: &d%amount_member%"
+    - "&fRivaler: &d%amount_rivals%"
+    - "&fAllierede: &d%amount_allies%"
+  member_name_color: "&d&l"
+  member_lore:
+    - "&fRank: &d%player_bande_rank%"
+    - "&f"
+    - "&fKlik for at administrere!"
+  ally_name_color: "&a&l"
+  ally_lore:
+    - "&fKlik for at fjerne!"
+  no_allys: "&cIngen allierede."
+  rival_name_color: "&c&l"
+  rivals_lore:
+    - "&fKlik for at fjerne!"
+  no_rivals: "&cIngen rivaler."
+  begraensninger_lore:
+    - "&d&l%name% &8[&f%level%&8]"
+    - "&f"
+    - "&fMedlemmer: &d%amount_member%/%max_member%"
+    - "&fAllierede: &d%amount_allies%/%max_allies%"
+    - "&fMedlemmer: &d%amount_rivals%/%max_rivals%"
+    - "&f"
+    - "&fAlly skade &f: &d %allyskade%%"
+    - "&fBande skade &f: &d %bandeskade%%"
+  bande_stats_lore:
+    - "&fLevel: &d%level%"
+    - "&f"
+    - "&fOfficer kills: &d%officerkills%"
+    - "&fVagt kills: &d%vagtkills%"
+    - "&fFange kills: &d%fangekills%"
+# Dette (^) er det ENESTE sted hvor du kan bruge placeholders i messages.yml!
+# Alle andre steder vil de blive ignoreret.
+chat:
+  bac_format:
+    - "&c"
+    - "&8[&d&lBANDE&F&lCHAT&8]"
+    - "&8[&7{0}&8] &f{1} &8\u00BB &f{2}"
+    - "&c"
+  chat_format_no_bande: # {0} er prefix, {1} er navn, {2} er suffix
+    - "{0}{1}{2} &8\u00BB &f{3}"
+  chat_format_normal: # Denne besked bliver sendt til alle der hverken er allierede eller rivaler med banden, når man skriver i chatten.
+      # {0} er bande-navn, {1} er stjerner, {2} er level, {3} er prefix, {4} er navn, {5} er suffix, {6} er beskeden
+    - "&8[&7{0}{1}&8][&7{2}&8] {3}{4}{5} &8\u00BB &f{6}"
+  chat_format_ally: # Denne besked bliver sendt til allierede, når man skriver i chatten.
+    - "&8[&a{0}{1}&8][&a{2}&8] {3}{4}{5} &8\u00BB &f{6}"
+  chat_format_rivals: # Denne besked bliver sendt til rivaler, når man skriver i chatten.
+    - "&8[&c{0}{1}&8][&c{2}&8] {3}{4}{5} &8\u00BB &f{6}"
+general:
+  invalid_bande: "&cDenne bande findes ikke!"
+  access_denied: "&cDu har ikke høj nok bande-rank til at tilgå dette."
+  no_money: "&cDu har ikke nok penge til dette! &7({0})"
+bande_huse:
+  already_owns: "&cDu kan ikke købe endnu et bande-hus, da du allerede har et!"
+  bought: "&a{0} har lige købt bande-huset {1} til jeres bande!"
+  too_low_level: "&cDu er for lavt bande level til at købe et bandehus! (Kræver level {0}!)"
+  areashop_denied_rent: "Du kan ikke købe denne celle, da du ikke har en bande."
+  cells_denied_rent: "&cDu kan ikke købe denne celle, da du ikke har en bande."
+  item_type: "SIGN"
+  item_name: "&d&l{0}"
+  item_lore:
+    - "&fBande huset &d{0}&f er til salg for &d${1}!"
+    - "&f"
+    - "&dKlik for at købe!"
+  display_item_lore:
+    - "&fHar din bande et bandehus?: &d%bandehus%"
+  symbol_yes: "&a&l✓"
+  symbol_no: "&c&l✖"
+level:
+  max_level: "&cDu er i det højeste level."
+  bande_level_up:
+    - "&c"
+    - "&8[ &d&lBANDE &f&lLEVEL-UP &8]"
+    - "&fBanden &d{0}&f har nået level &d{1}&f!"
+    - "&c"
+  unfulfilled_reqs: "&cDin bande ikke opfyldt alle kravene."
+bande_command:
+  no_bande: "&cDu skal have en bande, for at tilgå denne funktion!"
+  access_denied: "&cDu har ikke høj nok bande-rank til at tilgå dette."
+  not_enough_authority: "&c{0} har højere eller samme bande-rank som dig."
+  invalid_command:
+    - "&cDenne kommando findes ikke!"
+    - "&cHer er den komplette kommando-liste:"
+    - "&c/bande - Åben bande menuen"
+    - "&c/bande join <bande navn> - Tilslut dig en bande"
+    - "&c/bande search <bande navn> - Inviter en spiller til din bande"
+  invalid_command_with_bande: # Den ovenover vil altid først blive sendt og dernæst denne.
+    - "&c/bande invite <spiller navn> - Inviter en spiller til din bande"
+    - "&c/bande kick <spiller navn> - Smid en spiller ud af din bande"
+    - "&c/bande ally <bande navn> - Allier dig med en anden bande"
+    - "&c/bande rival <bande navn> - Gør dig fjender mod en anden bande"
+    - "&c/bande neutral <bande navn> - Gør dig neutrale med en anden bande"
+    - "&c/bande deposit <antal> - Læg penge ind i bande-banken"
+    - "&c/bande forlad - Forlad din nuværende bande"
+    - "&c/bande promote <spiller navn> - Promover et bande-medlem til højere rank"
+    - "&c/bande demote <spiller navn> - Degrader et bande-medlem til lavere rank"
+    - "&c/bande disband - Opløs din bande"
+    - "&c/bande ? - Sender denne hjælpe-besked."
+bande_omraade:
+  already_bought: "&cDu har allerede købt adgang til {0}!"
+  new_access: "&aDu købte adgang til {0}!"
+bande_create:
+  in_bande: "&cDu er allerede i banden {0}."
+  bande_exists: "&cDer findes allerede en bande med navnet {0}."
+  creation_started:
+    - "&aDu opretter nu en bande. Skriv dens navn i chatten."
+    - "&aDu kan benytte !cancel, for at stoppe."
+  creation_cancelled: "&cDu kansellerede bande-oprettelse."
+  invalidName:
+    - "&cNavnet indeholder et mellemrum, og banden kunne derfor ikke oprettes."
+    - "&cDin chat er blevet genaktiveret."
+  containsIllegalChar: "&cBandens navn indeholder ikke-tilladte tegn, og kunne derfor ikke oprettes."
+  illegalLength: "&cBandens navn er ikke inden for de tolerede grænser ift. længde. &7({0} - {1})"
+  illegalName: "&cBanden må ikke hedde {0}."
+  not_enough_money: "&cDu har ikke {0}$, og kan derfor ikke oprette en bande."
+  bande_created: "&aDu oprettede banden {0}!"
+neutral:
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande neutral <bande>!"
+bande:
+  bande-skade-maxed: "&cDu kan ikke købe mindre bande skade."
+  ekstra-medlem-bought: "&aDu har købt plads til endnu et medlem."
+  bande-skade-bought: "&aDu købte mindre bande skade. &7({0}%)"
+  bande-medlem-maxed: "&cDu kan ikke købe plads til flere medlemmer."
+  buffs-bought: "&a{0} har købt {1} til banden!"
+  attack_cancelled: "&cDu kan ikke slå dine bande-medlemmer."
+  neutral: "&a{0} gjorde din bande neutral med {1}."
+invite:
+  to_invited: "&aDu er blevet inviteret til banden {0}!"
+  already_sent_invite: "&cDu har allerede inviteret {0} til banden."
+  to_members: "&a{0} har inviteret {1} til banden!"
+  not_online: "&cInvitation fejlede da spilleren ikke er online." # Denne vil også blive sendt, hvis spilleren er invalid (spillernavnet man indtastede i /bande invite ikke findes)
+  has_bande: "&c{0} er allerede medlem af banden {1}!"
+  has_invite: "&c{0} er allerede blevet inviteret til din bande!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande invite <spiller navn>!"
+  max_members: "&aDu kan ikke tilslutte invite {0} til banden, da der ikke er plads til flere medlemmer."
+join:
+  not_invited: "&cDu er ikke inviteret til banden {0}!"
+  new_join: "&a{0} har tilsluttet sig banden!"
+  has_bande: "&cDu er allerede medlem af banden {0}!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande join <bande navn>!"
+  max_members: "&aDu kan ikke tilslutte dig banden {0}, da der ikke er plads til flere medlemmer."
+forlad:
+  message: "&c{0} har forladt banden."
+  bande_ejer:
+    - "&cDu er bandens ejer, og kan derfor ikke forlade den."
+    - "&cBenyt /bande disband, hvis du vil fjerne din bande."
+promote:
+  message: "&c{0} er blevet promoted til {1}!"
+  invalid: "&c{0} kunne ikke promoveres, da spilleren allerede er i det højeste rank."
+  player_not_in_bande: "&c{0} er ikke i din bande!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande promote <bande medlem>!"
+demote:
+  message: "&c{0} er blevet demoted til {1}!"
+  invalid: "&c{0} kunne ikke demotes, da spilleren allerede er i det laveste rank."
+  player_not_in_bande: "&c{0} er ikke i din bande!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande demote <bande medlem>!"
+kick:
+  player_not_in_bande: "&cSpilleren er ikke i din bande!"
+  invalid_player: "&cSpilleren {0} har ikke spillet herinde."
+  message_members: "&c{0} er blevet smidt ud af banden af {1}!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande kick <spiller navn>!"
+ally:
+  already_sent_invite: "&cDin bande har allerede inviteret {0} til at indgå i alliance!"
+  already_in_alliance: "&cDin bande er allerede allierede med {0}!"
+  invite_message_from: "&aDin bande er blevet inviteret til at indgå i alliance med {0}!"
+  invite_message_to: "&aDin bande har inviteret banden {0} til at indgå i alliance!"
+  invite_own_bande: "&cDu kan ikke invitere din egen bande til at indgå i alliance."
+  new_alliance: "&aDin bande er indgået i alliance med {0}!"
+  max: "&cBanden {0} kan ikke have flere allierede."
+  ally-skade-maxed: "&cDu kan ikke købe mindre ally-skade"
+  ally-skade-bought: "&aDu har købt mindre ally-skade. &7({0}%)"
+  bought: "&aDu har købt plads til endnu en ally."
+  is_rival: "&cKunne ikke sende/acceptere inviteringen, da {0} er rivaler mod {1}."
+  no_more: "&cDu kan ikke købe adgang til flere allierede."
+  ally_attack_cancelled: "&cDu kan ikke slå allierede."
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande ally <bande navn>!"
+rival:
+  is_ally: "&cDu kan ikke blive rivaler mod {0}, da i er i alliance med dem."
+  already_rival: "&cDin bande er allerede rivaler mod {0}!"
+  new_rival: "&cDin bande er blevet gjort rivaler mod {0}!"
+  rival_own_bande: "&cDu kan ikke blive rival mod din egen bande."
+  max: "&cDu har ikke plads til flere rivaler."
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande rival <bande navn>!"
+  no_more: "&cDu kan ikke købe adgang til flere rivaler."
+  bought: "&aDu har købt plads til endnu en rival."
+bank:
+  pre_deposit_message:
+    - "&aSkriv i chatten hvor mange penge du vil indsætte."
+    - "&aBrug !cancel hvis du ikke vil indsætte penge alligevel."
+  deposit_cancelled: "&cDu satte ingen penge ind i din bande."
+  cannot_afford: "&aDu har ikke {0}$."
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande deposit <antal>"
+  success: "&aDu har indsat {0}$ i din bande!"
+  not_number: "&cForkert syntaks. Indtast et tal."
+disband:
+  message: "&c{0} har opløst banden."
+  force_message: "&cAdministratoren {0} har opløst din bande med magt."
+search:
+  bande_findes_ikke: "&cDer findes ingen bande opkaldt {0}!"
+  incorrect_syntax: "&cForkert syntaks! Benyt /bande search <bande navn>"
+cooldown:
+  speed-cooldown: "&cDu kan ikke købe dette før om {0}!"
+  strength-cooldown: "&cDu kan ikke købe dette før om {0}!"
+  hunger-cooldown: "&cDu kan ikke købe dette før om {0}!"

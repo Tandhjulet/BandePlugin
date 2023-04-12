@@ -1,0 +1,39 @@
+name: Bande
+version: 0.5
+description: Et plugin der tilbyder avancerede bande-systemer.
+author: Tandhjulet
+main: dk.tandhjulet.BandePlugin
+
+depend: [Vault, PlaceholderAPI]
+softdepend: [HeadDatabase, PrisonCells, AreaShop, WorldGuard, Skript]
+
+commands:
+  bande:
+    aliases: b
+    description: Giver adgang til Bande-pluginnet.
+    usage: /<command>
+  itembuilder:
+    description: Giver adgang til item-builderen, hvor du nemt kan bygge custom items til dine GUIs.
+    usage: /<command>
+    permission: bande.itembuilder
+  bac:
+    description: Skriv til din bande, privat!
+    usage: /<command>
+  bandeadmin:
+    aliases: ba
+    description: Administrer bander
+    permission: bande.admin
+    usage: /<command>
+    
+permissions:
+  bande.itembuilder:
+    description: Gives access to /itembuilder command.
+    default: op
+  bande.admin:
+    description: Gives access to some bande-features.
+    default: op
+  bande.*:
+    description: Wildcard
+    children:
+      - bande.admin
+      - bande.itembuilder

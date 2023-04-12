@@ -1,0 +1,18 @@
+krav:
+  1:
+    PlaceHolderCondition: "%amount_member%>=3"
+    ConditionMet: "&a✓ 3 bande-medlemmer"
+    ConditionNotMet: "&c✖ 3 bande-medlemmer"
+  2:
+    PlaceHolderCondition: "%amount_allies%>=1"
+    ConditionMet: "&a✓ 1 allieret"
+    ConditionNotMet: "&c✖ 1 allieret"
+  3:
+    PlaceHolderCondition: "%amount_rivals%>=1"
+    ConditionMet: "&a✓ 1 rival"
+    ConditionNotMet: "&c✖ 1 rival"
+  price:
+    PlaceHolderCondition: "%bank%>=5000"
+    ConditionMet: "&a✓ Betal 5000 &7(mistes ved level-up)"
+    ConditionNotMet: "&c✖ Betal 5000"
+    price: 5000

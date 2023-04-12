@@ -1,0 +1,45 @@
+WORLD: "world" # VIGTIGT at dette står til den verden, hvori dine bandehuse ligger.
+               # Bruger du ikke den feature, burde du godt kunne ignorere dette.
+custom_chat_enabled: true # Bemærk du kan ændre formaten i messages.yml!
+bande:
+  bande_name_minimum_length: 3
+  bande_name_maximum_length: 10
+  create_price: 2500
+  ingen_bande: "Ingen bande"
+  extra_ally_price: 2500
+  extra_rival_price: 2500
+  extra_member_price: 5000
+  ally_damage_price: 500
+  rival_damage_price: 500
+  start_ally_amount: 3 # Det man starter med, når man opretter banden.
+  max_alliances: 6 # Maksimummet man kan opgradere til.
+  start_rival_amount: 3 # Det man starter med, når man opretter banden.
+  max_rivals: 6 # Maksimummet man kan opgradere til.
+  start_member_amount: 5 # Det man starter med, når man opretter banden.
+  max_members: 6 # Maksimummet man kan opgradere til.
+  shop:
+    strength_buff_price: 12500
+    hunger_buff_price: 10000
+    speed_buff_price: 12500
+  banned-names:
+    - fedebarn
+    - lorteserver
+    # Tilføj flere ved at lave et nyt entry.
+    # https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+ally_list_format: "&d&l • &a"
+rival_list_format: "&d&l • &c"
+no_ally_message: "&fIngen allierede..."
+no_rival_message: "&fIngen rivaler..."
+top_pre_update: "&aBande-top opdater..."
+top_after_update: "&aBande-top er blevet opdateret!"
+bande_level_required_for_bandehus: 5
+vagt_group:
+  - "vagt"
+officer_group:
+  - "officer"
+preferred_celle_plugin: auto # Nuværende godtagede værdier er 'auto', 'AreaShop', 'Cells' / 'PrisonCells' (Det plugin som plexhost har lavet - vælg det som der står når bu bruger /pl.).
+                             # Bemærk at det er case-sensitivt (den er IKKE ligeglad med om tingene står med stort eller småt. Skriv det som det står ovenover.)
+cooldowns: # Alle cooldownsne er i millisekunder. For at lave sekunder om til millisekunder skal du gange med 1000.
+  speed-buff-cooldown: 900000 # 15 minutter
+  strength-buff-cooldown: 1800000 # 30 minutter
+  hunger-buff-cooldown: 450000 # 7.5 minutter
