@@ -36,4 +36,4 @@
 **Dokumentation for pluginnet kan findes her:**
 > [Plugin Docs](https://tandhjulet.gitbook.io/bande-plugin-docs/)
 
-> [Java Docs](http://62.243.56.81/javadocs/)
+> [Java Docs](http://62.243.56.81/newjavadocs/)
