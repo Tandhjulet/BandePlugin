@@ -102,9 +102,15 @@ public class BandePlaceholders {
             }
             return Message.get("bande_huse.symbol_no")[0];
         } else if (identifier.equalsIgnoreCase("bandehuse_sold")) {
+            if (!BandePlugin.getHouseManager().isEnabled())
+                return null;
+
             return String.valueOf(BandePlugin.getHouseManager().getRegions().size() - BandePlugin.getHouseManager()
                     .getAvailableRegions(BandePlugin.getConfiguration().getMainWorld()).size());
         } else if (identifier.equalsIgnoreCase("bandehuse_total")) {
+            if (!BandePlugin.getHouseManager().isEnabled())
+                return null;
+
             return String.valueOf(BandePlugin.getHouseManager().getRegions().size());
         } else if (customPlaceholders.containsKey(identifier)) {
             return customPlaceholders.get(identifier).apply(bande);

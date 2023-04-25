@@ -1,5 +1,8 @@
 ## **DENNE VERSION VIL IKKE VIRKE MED FILER FRA TIDLIGERE (<0.5) VERSIONER**
 
+*Hvis du vil bruge pluginnet må du selv compile det eller alternativt købe det.*
+*Ved køb får du også inkluderet et sæt af GUIs, som du ellers selv ville skulle lave. Du vil ellers være på ejen hånd - ingen support.*
+
 ---------------------------------------------------------
 
 **_Har du fundet en fejl i pluginnet?_**
