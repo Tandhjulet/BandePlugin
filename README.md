@@ -5,6 +5,19 @@
 
 ---------------------------------------------------------
 
+Krævede plugins:
+- Vault
+- PlaceholderAPI
+
+Optionelle udvidelser:
+- HeadDataBase
+- PrisonCells
+- AreaShop
+- WorldGuard
+- Skript
+
+---------------------------------------------------------
+
 **_Har du fundet en fejl i pluginnet?_**
 > Rapporter den ved at oprette issue over GitHub eller tag kontakt til mig privat ved Tandhjulet#3264.
 
