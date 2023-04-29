@@ -40,4 +40,4 @@
 <br>
 <a href="https://tandhjulet.gitbook.io/bande-plugin-docs/">Plugin Docs</a>
 <br>
-<a href="http://62.243.56.81/newjavadocs/">Java Docs</a>
+<a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
