@@ -37,9 +37,13 @@ public class LevelManager {
             File f = new File(file, "level-" + index.get() + ".yml");
 
             Level l = new Level(f);
-            Integer i = Integer.valueOf(index.get());
+            if (l.isEnabled()) {
+                Integer i = Integer.valueOf(index.get());
 
-            levels.put(i, l);
+                levels.put(i, l);
+            } else {
+                break;
+            }
         }
 
     }

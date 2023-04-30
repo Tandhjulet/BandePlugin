@@ -12,13 +12,16 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import dk.tandhjulet.bande.Bande;
+import dk.tandhjulet.utils.Logger;
 import net.kyori.adventure.text.Component;
 
 public class Level {
     public HashMap<Integer, LevelRequirement> reqs;
     public Integer price;
+    public boolean isEnabled;
 
     public Level(File file) {
+        isEnabled = true;
         reqs = new HashMap<>();
         price = 0;
 
@@ -26,18 +29,28 @@ public class Level {
 
         AtomicInteger index = new AtomicInteger(1);
 
-        for (String key : config.getConfigurationSection("krav").getKeys(false)) {
+        try {
+            for (String key : config.getConfigurationSection("krav").getKeys(false)) {
 
-            if ((StringUtils.isNumeric(key) && Integer.parseInt(key) == index.get()) || key.equalsIgnoreCase("price")) {
-                ConfigurationSection section = config.getConfigurationSection("krav." + key);
-                if (key.equalsIgnoreCase("price")) {
-                    this.price = section.getInt("price");
+                if ((StringUtils.isNumeric(key) && Integer.parseInt(key) == index.get())
+                        || key.equalsIgnoreCase("price")) {
+                    ConfigurationSection section = config.getConfigurationSection("krav." + key);
+                    if (key.equalsIgnoreCase("price")) {
+                        this.price = section.getInt("price");
+                    }
+                    reqs.put(index.get(), new LevelRequirement(section));
+
+                    index.incrementAndGet();
                 }
-                reqs.put(index.get(), new LevelRequirement(section));
-
-                index.incrementAndGet();
             }
+        } catch (Exception e) {
+            Logger.severe("Could not parse level " + file.getAbsolutePath());
+            isEnabled = false;
         }
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     public List<Component> apply(OfflinePlayer p, Bande b) {

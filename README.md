@@ -43,6 +43,7 @@
 | MongoDB Support (Kommer)            	| &#9744; 	|
 | MariaDB Support (Kommer)            	| &#9744; 	|
 | Cassandra Support (Kommer)          	| &#9744; 	|
+| Automatic update checker          	| &#9744; 	|
 
 ---------------------------------------------------------
 

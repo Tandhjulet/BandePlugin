@@ -85,9 +85,9 @@ public class GUIItem implements Serializable {
                 newItem = ItemBuilder.skull(newItem).owner(player).build();
             }
 
-        if (bande != null && !interaction) {
+        if (!interaction) {
             String tag = NBTAPI.getTag("bande-type", newItem);
-            if (tag.equalsIgnoreCase("bande-ally-item")) {
+            if (tag.equalsIgnoreCase("bande-ally-item") && bande != null) {
                 if (bande.getAllianceAmount() > 0) {
                     String prefix = BandePlugin.getConfiguration().getAllyListFormat();
 
@@ -101,7 +101,7 @@ public class GUIItem implements Serializable {
                             .lore(Component.text(Utils.getColored(BandePlugin.getConfiguration().getNoAllyMessage())))
                             .build();
                 }
-            } else if (tag.equalsIgnoreCase("bande-rival-item")) {
+            } else if (tag.equalsIgnoreCase("bande-rival-item") && bande != null) {
                 if (bande.getRivalAmount() > 0) {
                     String prefix = BandePlugin.getConfiguration().getRivalListFormat();
 
@@ -194,12 +194,12 @@ public class GUIItem implements Serializable {
                     Demote.run(sender, new String[] { "", p.getBase().getName() });
                     Utils.scheduleClose(e);
                 };
-            } else if (tag.equalsIgnoreCase("bande-begraensninger-item")) {
+            } else if (tag.equalsIgnoreCase("bande-begraensninger-item") && bande != null) {
                 List<Component> replacedLore = Message.getPlaceholderReplaced(bande, player,
                         "dynamic_items.begraensninger_lore");
 
                 newItem = ItemBuilder.from(newItem).lore(replacedLore).build();
-            } else if (tag.equalsIgnoreCase("bande-statistikker")) {
+            } else if (tag.equalsIgnoreCase("bande-statistikker") && bande != null) {
                 List<Component> replacedLore = Message.getPlaceholderReplaced(bande, player,
                         "dynamic_items.bande_stats_lore");
 
@@ -225,7 +225,7 @@ public class GUIItem implements Serializable {
                 }
 
                 newItem = ItemBuilder.from(newItem).lore(list).build();
-            } else if (tag.equalsIgnoreCase("bande-level")) {
+            } else if (tag.equalsIgnoreCase("bande-level") && bande != null) {
                 Level level = BandePlugin.getLevelManager().get(bande.getLevel() + 1);
                 if (level == null) {
                     List<Component> c = Message.getAsComponent("level.max_level");
@@ -241,7 +241,7 @@ public class GUIItem implements Serializable {
                 } else {
                     newItem = ItemBuilder.from(newItem).lore(level.apply(player, bande)).build();
                 }
-            } else if (tag.equalsIgnoreCase("bande-hus-item")) {
+            } else if (tag.equalsIgnoreCase("bande-hus-item") && bande != null) {
                 List<Component> c = Message.getPlaceholderReplaced(bande, player, "bande_huse.display_item_lore");
 
                 newItem = ItemBuilder.from(newItem)
