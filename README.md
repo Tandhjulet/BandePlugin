@@ -40,10 +40,10 @@
 | Automatic Update Checker            	| &#9745; 	|
 | Java docs                           	| &#9745; 	|
 | API                                 	| &#9745; 	|
+| Automatic update checker          	| &#9745; 	|
 | MongoDB Support (Kommer)            	| &#9744; 	|
 | MariaDB Support (Kommer)            	| &#9744; 	|
 | Cassandra Support (Kommer)          	| &#9744; 	|
-| Automatic update checker          	| &#9744; 	|
 
 ---------------------------------------------------------
 
