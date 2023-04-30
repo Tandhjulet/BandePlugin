@@ -32,6 +32,7 @@ import dk.tandhjulet.storage.Config;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.storage.Message;
 import dk.tandhjulet.top.BandeTopHolder;
+import dk.tandhjulet.update.UpdateChecker;
 import dk.tandhjulet.utils.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -152,6 +153,17 @@ public class BandePlugin extends JavaPlugin {
             }
         } else {
             getLogger().info("Failed to register skript-syntaxes. (Plugin not found/disabled)");
+        }
+
+        if (UpdateChecker.checkUpdate() && !UpdateChecker.errored()) {
+            Logger.info("There's an update available for the Bande Plugin!");
+            if (UpdateChecker.isCurrentVersionPrerelease() || UpdateChecker.isNewestVersionPrerelease()) {
+                Logger.info("Please note that you're currently using a prerelease of the plugin.");
+                Logger.info(
+                        "Therefore this update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
+            }
+            Logger.info("Current version: " + UpdateChecker.getPluginVersion());
+            Logger.info("Newest version: " + UpdateChecker.getNewestVersion());
         }
 
         getLogger().info("Bande er blevet indlæst.");

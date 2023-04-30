@@ -4,7 +4,7 @@
 
     <groupId>dk.tandhjulet</groupId>
     <artifactId>bande</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
     <name>BandePlugin</name>
 
     <packaging>jar</packaging>
@@ -40,6 +40,17 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.314</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>semver4j</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>

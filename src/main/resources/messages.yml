@@ -57,6 +57,7 @@ general:
   invalid_bande: "&cDenne bande findes ikke!"
   access_denied: "&cDu har ikke høj nok bande-rank til at tilgå dette."
   no_money: "&cDu har ikke nok penge til dette! &7({0})"
+  update: "&cDer er en opdatering til bande-pluginnet! Nuværende version: {0}, Nyeste version: {1}"
 bande_huse:
   already_owns: "&cDu kan ikke købe endnu et bande-hus, da du allerede har et!"
   bought: "&a{0} har lige købt bande-huset {1} til jeres bande!"

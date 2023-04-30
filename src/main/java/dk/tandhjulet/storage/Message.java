@@ -185,7 +185,8 @@ public class Message {
 
     public static String[] get(String path) {
         if (!messages.containsKey(path)) {
-            Logger.warn("Missing '" + path + "' in messages.yml...");
+            Logger.warn("Missing '" + path
+                    + "' in messages.yml. Messages.yml was likely created by an outdated version of the plugin. Trying to recover from embedded file.");
             return new String[] { "" };
         }
         return messages.get(path);
