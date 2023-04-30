@@ -88,6 +88,7 @@ public class BandePlugin extends JavaPlugin {
         Message.init();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            Logger.info("Found Placeholder API! Registering expansion...");
             new Placeholders(this).register();
             isPAPIEnabled = true;
         } else {
