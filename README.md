@@ -58,6 +58,8 @@ TODO
 <br>
 <a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
 
+------
+
 **7432 lines of beauty**
 
 
