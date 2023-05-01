@@ -32,7 +32,7 @@ public class GUIManager {
             if (!f.exists()) {
                 Logger.info("Could not find gui " + gui_name + "! Creating an empty one...");
                 Logger.info(
-                        "You can download a pre-set of GUIs from the website, or by nagging the plugins seller (Tandhjulet#3264)!");
+                        "You can download a pre-set of GUIs from the website!");
             }
 
             addGui(gui_name, loadGUIFromFile(gui_name));
