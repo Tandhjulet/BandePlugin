@@ -5,7 +5,7 @@ author: Tandhjulet
 main: dk.tandhjulet.BandePlugin
 
 depend: [Vault, PlaceholderAPI]
-softdepend: [HeadDatabase, PrisonCells, AreaShop, WorldGuard, Skript]
+softdepend: [PrisonCells, AreaShop, WorldGuard, Skript]
 
 commands:
   bande:

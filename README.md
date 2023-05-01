@@ -7,7 +7,6 @@
 - PlaceholderAPI
 
 *Optionelle udvidelser:*
-- HeadDataBase
 - PrisonCells
 - AreaShop
 - WorldGuard
