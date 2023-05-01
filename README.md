@@ -59,4 +59,6 @@ TODO
 <a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
 
 **7432 lines of beauty**
+
+
 ![Picture of 7432 lines of beauty](https://cdn.discordapp.com/attachments/836315762880675890/1102670819290775572/image.png)
