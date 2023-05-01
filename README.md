@@ -40,7 +40,7 @@
 | Java docs                           	| &#9745; 	|
 | API                                 	| &#9745; 	|
 | Automatic update checker          	| &#9745; 	|
-| Make GUIs work from first-launch      | &#9744; 	|
+| Plug-and-play                         | &#9745; 	|
 | MongoDB Support (Kommer)            	| &#9744; 	|
 | MariaDB Support (Kommer)            	| &#9744; 	|
 | Cassandra Support (Kommer)          	| &#9744; 	|
