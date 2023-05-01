@@ -155,16 +155,7 @@ public class BandePlugin extends JavaPlugin {
             getLogger().info("Failed to register skript-syntaxes. (Plugin not found/disabled)");
         }
 
-        if (UpdateChecker.checkUpdate() && !UpdateChecker.errored()) {
-            Logger.info("There's an update available for the Bande Plugin!");
-            if (UpdateChecker.isCurrentVersionPrerelease() || UpdateChecker.isNewestVersionPrerelease()) {
-                Logger.info("Please note that you're currently using a prerelease of the plugin.");
-                Logger.info(
-                        "Therefore this update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
-            }
-            Logger.info("Current version: " + UpdateChecker.getPluginVersion());
-            Logger.info("Newest version: " + UpdateChecker.getNewestVersion());
-        }
+        UpdateChecker.fetchLatestRelease();
 
         getLogger().info("Bande er blevet indlæst.");
     }
