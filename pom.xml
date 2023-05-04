@@ -17,8 +17,8 @@
   
     <repositories>
         <repository>
-            <id>paper-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>CodeMC</id>
@@ -147,19 +147,14 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <targetPath>.</targetPath>
                 <includes>
                     <include>plugin.yml</include>
-                    <include>**/*.yml</include>
-                    <include>**/*.data</include>
+                    <include>config.yml</include>
+                    <include>bounds.yml</include>
+                    <include>worlds.yml</include>
+                    <include>lang/english.lang</include>
                 </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                    <exclude>plugin.yml</exclude>
-                </excludes>
             </resource>
         </resources>
 
