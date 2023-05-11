@@ -151,10 +151,10 @@
                 <targetPath>.</targetPath>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>guis.zip</include>
+                    <include>levels/*</include>
                     <include>config.yml</include>
-                    <include>bounds.yml</include>
-                    <include>worlds.yml</include>
-                    <include>lang/english.lang</include>
+                    <include>messages.yml</include>
                 </includes>
             </resource>
         </resources>
