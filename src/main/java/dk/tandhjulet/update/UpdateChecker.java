@@ -76,10 +76,9 @@ public class UpdateChecker {
 
             Logger.info("There's an update available for the Bande Plugin!");
 
-            // TODO: Remove this when out of pre-release stage
-            Logger.info("Please note that you're currently using a prerelease of the plugin.");
+            Logger.info("If you've previously run a pre-release version of this plugin:");
             Logger.info(
-                    "Therefore this update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
+                    "This update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
 
             Logger.info("Current version: " + UpdateChecker.getPluginVersion());
             Logger.info("Newest version: " + UpdateChecker.getNewestVersion());

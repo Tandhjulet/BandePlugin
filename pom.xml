@@ -4,7 +4,7 @@
 
     <groupId>dk.tandhjulet</groupId>
     <artifactId>bande</artifactId>
-    <version>0.5.4</version>
+    <version>1.0.0</version>
     <name>BandePlugin</name>
 
     <packaging>jar</packaging>
