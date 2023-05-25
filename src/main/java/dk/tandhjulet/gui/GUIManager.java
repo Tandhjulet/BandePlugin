@@ -31,15 +31,17 @@ public class GUIManager {
         if (!guiFolder.exists()) {
             guiFolder.mkdirs();
         }
-        if (guiFolder.length() == 0) {
+        if (guiFolder.listFiles().length == 0) {
 
             Logger.info("GUI-directory is empty... restoring from embedded.");
 
             BandePlugin.getPlugin().saveResource("guis.zip", false);
+
             new File(BandePlugin.getPlugin().getDataFolder(), "guis").mkdir();
             unzip(BandePlugin.getPlugin().getDataFolder().getAbsolutePath() + File.separator + "guis.zip",
                     BandePlugin.getPlugin().getDataFolder().getAbsolutePath() + File.separator + "guis"
                             + File.separator);
+
             new File(BandePlugin.getPlugin().getDataFolder(), "guis.zip").delete();
         }
 
@@ -48,7 +50,7 @@ public class GUIManager {
                     File.separator + gui_name + ".data");
             if (!f.exists()) {
                 Logger.info("Could not find gui " + gui_name + "! Creating an empty one...");
-                Logger.info("You can download a pre-set of GUIs from the website!");
+                Logger.info("You can get the pre-set of GUIs by deleting the /guis/-folder in the plugin-folder.");
             }
 
             addGui(gui_name, loadGUIFromFile(gui_name));
