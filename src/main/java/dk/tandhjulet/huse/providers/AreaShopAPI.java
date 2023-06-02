@@ -3,16 +3,28 @@ package dk.tandhjulet.huse.providers;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import dk.tandhjulet.BandePlugin;
+import me.wiefferink.areashop.AreaShop;
 import me.wiefferink.areashop.managers.FileManager;
 import me.wiefferink.areashop.regions.GeneralRegion;
 
 public class AreaShopAPI implements IProvider {
 
-    public FileManager manager;
+    private static FileManager manager;
+
+    public AreaShopAPI() {
+        AreaShop as = (AreaShop) Bukkit.getPluginManager().getPlugin("AreaShop");
+        if (as == null) {
+            BandePlugin.getHouseManager().enabled = false;
+            return;
+        }
+
+        manager = as.getFileManager();
+    }
 
     @Override
     public List<String> getAvailableHouses(World world) {
