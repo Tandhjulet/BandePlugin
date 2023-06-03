@@ -27,7 +27,7 @@ public class UpdateChecker {
 
     static Boolean error = false;
     static String newestVersion;
-    static Boolean isUpdateAvailable;
+    static Boolean isUpdateAvailable = false;
 
     public static void fetchLatestRelease() {
         Bukkit.getScheduler().runTaskAsynchronously(BandePlugin.getPlugin(), (Runnable) () -> {
@@ -53,7 +53,7 @@ public class UpdateChecker {
                     e.printStackTrace();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.warn("Failed to connect to GitHub to fetch latest release.");
             }
         });
         error = true;
@@ -76,9 +76,9 @@ public class UpdateChecker {
 
             Logger.info("There's an update available for the Bande Plugin!");
 
-            Logger.info("If you've previously run a pre-release version of this plugin:");
+            Logger.info("If you've previously run a pre-release version of this plugin, then");
             Logger.info(
-                    "This update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
+                    "this update COULD (but most-likely wont) break or ruin your current files if not wiped beforehand.");
 
             Logger.info("Current version: " + UpdateChecker.getPluginVersion());
             Logger.info("Newest version: " + UpdateChecker.getNewestVersion());

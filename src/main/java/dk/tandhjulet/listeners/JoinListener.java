@@ -33,7 +33,7 @@ public class JoinListener implements Listener {
         }
 
         if (event.getPlayer().isOp()) {
-            if (!UpdateChecker.isUpdateAvailable()) {
+            if (UpdateChecker.errored() || !UpdateChecker.isUpdateAvailable()) {
                 return;
             }
             Bukkit.getScheduler().scheduleSyncDelayedTask(BandePlugin.getPlugin(), new Runnable() {
