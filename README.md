@@ -1,10 +1,15 @@
-## **DENNE VERSION VIL IKKE VIRKE MED FILER FRA TIDLIGERE (<0.5) VERSIONER**
+**Dette plugin bruger semantic versioning!**
+
+Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret forhøjes, vil den version af pluginnet ikke være kompatibel med tidligere versioner. [Du kan læse mere om semantic versioning her](https://semver.org/#summary)!
 
 ---------------------------------------------------------
 
 *Krævede plugins:*
 - Vault
 - PlaceholderAPI
+- Ethvert economy plugin (f.eks EssentialsX)
+- Ethvert chat plugin (f.eks EssentialsXChat)
+- Ethvert permissions plugin (f.eks LuckPerms)
 
 *Optionelle udvidelser:*
 - PrisonCells
@@ -15,13 +20,12 @@
 ---------------------------------------------------------
 
 TODO
-- Formindsk jar-størrelse
 - ???
 
 ---------------------------------------------------------
 
 **_Har du fundet en fejl i pluginnet?_**
-> Rapporter den ved at oprette issue over GitHub eller tag kontakt til mig privat ved Tandhjulet#3264.
+> Rapporter den ved at oprette issue over GitHub eller tag kontakt til mig privat ved `tandhjul`.
 
 ---------------------------------------------------------
 
