@@ -27,6 +27,11 @@ public class Config implements IConfig {
         return houses;
     }
 
+    public void setHouses(final List<String> houses) {
+        this.houses = houses;
+        config.save();
+    }
+
     public void addHouse(String house) {
         houses.add(house);
         config.setProperty("houses", houses);

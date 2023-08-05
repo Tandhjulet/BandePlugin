@@ -1,5 +1,6 @@
 package dk.tandhjulet.gui;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -11,7 +12,9 @@ import dk.tandhjulet.config.holder.InventoryDataHolder;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 
-public class InventoryData implements IConfig {
+public class InventoryData implements IConfig, Serializable {
+    private static transient final long serialVersionUID = 9L;
+
     private InventoryDataHolder holder;
     private BandeConfig config;
 

@@ -439,6 +439,11 @@ public class FileManager {
                 .exists();
     }
 
+    @Deprecated
+    public static File getHouseHolderFile() {
+        return new File(fileBase + File.separator + BANDE_HOUSE_HOLDER_PATH + File.separator + "houses.data");
+    }
+
     public static File getGUIFile(String gui) {
         return new File(fileBase + File.separator + GUI_PATH + File.separator + gui + ".yml");
     }

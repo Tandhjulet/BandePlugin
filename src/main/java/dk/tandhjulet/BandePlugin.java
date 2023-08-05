@@ -53,6 +53,7 @@ public class BandePlugin extends JavaPlugin {
 
     @SuppressWarnings("deprecation")
     private static dk.tandhjulet.huse.HouseHolder houseHolder;
+
     private static HouseManager houseManager;
     private static Config config;
 
@@ -95,6 +96,9 @@ public class BandePlugin extends JavaPlugin {
 
         this.saveDefaultConfig();
         plugin = this;
+
+        // For backwards compatability
+        loadDeprecatedVariables();
 
         config = new Config();
 
@@ -178,6 +182,11 @@ public class BandePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info("Plugin shutting down...");
+    }
+
+    @SuppressWarnings("deprecation")
+    public void loadDeprecatedVariables() {
+        houseHolder = (dk.tandhjulet.huse.HouseHolder) FileManager.loadDeprecated(FileManager.getHouseHolderFile());
     }
 
     public static InventoryData getInventoryDataHolder() {

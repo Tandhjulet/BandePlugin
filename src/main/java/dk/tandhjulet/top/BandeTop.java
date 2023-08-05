@@ -1,5 +1,6 @@
 package dk.tandhjulet.top;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,10 @@ import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Utils;
 
-public class BandeTop implements IConfig {
+public class BandeTop implements IConfig, Serializable {
+    @Deprecated
+    private static transient final long serialVersionUID = 6L;
+
     private BandeConfig config;
     private TopHolder holder;
 

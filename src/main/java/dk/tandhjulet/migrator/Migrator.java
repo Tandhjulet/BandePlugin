@@ -8,9 +8,6 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import dk.tandhjulet.config.BandeConfig;
-import dk.tandhjulet.storage.FileManager;
-
 public class Migrator {
     public static void run() {
         Set<Class<? extends IMigration>> migrationClasses = new Reflections("dk.tandhjulet.migrator.migrators")
@@ -19,23 +16,10 @@ public class Migrator {
         migrationClasses.forEach(migrator -> {
             try {
                 IMigration migration = migrator.newInstance();
-                Map.Entry<List<File>, List<Field>> toMigrate = migration.migrate();
+                Map.Entry<List<File>, List<Field>> toMigrate = migration.getMigrationData();
 
                 toMigrate.getKey().forEach(file -> {
-
-                    BandeConfig config = new BandeConfig(file);
-                    Object toExtract = FileManager.loadDeprecated(file);
-
-                    toMigrate.getValue().forEach(field -> {
-                        try {
-                            config.setUnsafeProperty(field.getName(),
-                                    field.get(toExtract));
-                        } catch (IllegalArgumentException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-                    config.save();
+                    migration.migrate(file);
                 });
 
             } catch (InstantiationException | IllegalAccessException e) {

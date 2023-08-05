@@ -1,6 +1,7 @@
 package dk.tandhjulet.bande;
 
 import java.io.File;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,10 @@ import dk.tandhjulet.hooks.WorldGuardHook;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
 
-public class Bande implements IConfig {
+public class Bande implements IConfig, Serializable {
+    @Deprecated
+    private static transient final long serialVersionUID = 1L;
+
     private final BandeConfig config;
     private BandeHolder holder;
 

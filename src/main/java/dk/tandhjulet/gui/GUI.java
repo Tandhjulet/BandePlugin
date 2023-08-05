@@ -1,6 +1,7 @@
 package dk.tandhjulet.gui;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,7 +31,10 @@ import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
 import net.kyori.adventure.text.Component;
 
-public class GUI implements IConfig {
+public class GUI implements IConfig, Serializable {
+    @Deprecated
+    private static transient final long serialVersionUID = 3L;
+
     private BandeConfig config;
     private GUIHolder holder;
 

@@ -1,6 +1,7 @@
 package dk.tandhjulet.bande;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -16,7 +17,9 @@ import dk.tandhjulet.enums.ChatStatus;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 
-public class BandePlayer implements IConfig {
+public class BandePlayer implements IConfig, Serializable {
+    private static transient final long serialVersionUID = 2L;
+
     private BandeConfig config;
     private BandePlayerHolder holder;
 

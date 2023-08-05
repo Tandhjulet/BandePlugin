@@ -7,12 +7,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.storage.FileManager;
+
 public interface IMigration {
-    public default Map.Entry<List<File>, List<Field>> migrate() {
+    public default Map.Entry<List<File>, List<Field>> getMigrationData() {
         List<Field> fields = getFields();
         List<File> files = getFiles();
 
         return new AbstractMap.SimpleEntry<List<File>, List<Field>>(files, fields);
+    }
+
+    public default void migrate(File file) {
+        BandeConfig config = new BandeConfig(file);
+        Object toExtract = FileManager.loadDeprecated(file);
+
+        Map.Entry<List<File>, List<Field>> toMigrate = getMigrationData();
+
+        toMigrate.getValue().forEach(field -> {
+            try {
+                config.setUnsafeProperty(field.getName(),
+                        field.get(toExtract));
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+
+        config.save();
     }
 
     public default List<Field> getFields() {

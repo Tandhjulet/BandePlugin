@@ -1,12 +1,15 @@
 package dk.tandhjulet.huse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.tandhjulet.migrator.Migrate;
 
 @Deprecated
-public class HouseHolder {
+public class HouseHolder implements Serializable {
+    @Deprecated
+    private static transient final long serialVersionUID = 8L;
 
     @Migrate
     public List<String> houses;
