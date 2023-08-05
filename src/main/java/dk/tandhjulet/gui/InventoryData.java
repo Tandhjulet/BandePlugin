@@ -1,12 +1,14 @@
 package dk.tandhjulet.gui;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Set;
 
 import dk.tandhjulet.config.BandeConfig;
 import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.config.holder.BandeHolder;
 import dk.tandhjulet.config.holder.InventoryDataHolder;
+import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 
 public class InventoryData implements IConfig {
@@ -51,4 +53,12 @@ public class InventoryData implements IConfig {
     public void reloadConfig() {
         config.load();
     }
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, String> idToName;
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, Integer> idToSize;
 }

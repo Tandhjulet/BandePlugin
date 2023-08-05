@@ -13,6 +13,7 @@ import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.config.holder.BandePlayerHolder;
 import dk.tandhjulet.enums.BandeRank;
 import dk.tandhjulet.enums.ChatStatus;
+import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 
 public class BandePlayer implements IConfig {
@@ -167,5 +168,21 @@ public class BandePlayer implements IConfig {
     public void reloadConfig() {
         config.load();
     }
+
+    @Migrate
+    @Deprecated
+    private UUID base;
+
+    @Migrate
+    @Deprecated
+    private String bande;
+
+    @Migrate
+    @Deprecated
+    private BandeRank bandeRank;
+
+    @Migrate
+    @Deprecated
+    private HashSet<String> invitations;
 
 }

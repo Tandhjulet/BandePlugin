@@ -1,5 +1,6 @@
 package dk.tandhjulet.top;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.config.BandeConfig;
 import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.config.holder.TopHolder;
+import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Utils;
 
@@ -126,4 +128,20 @@ public class BandeTop implements IConfig {
     public void reloadConfig() {
         config.load();
     }
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, Integer> topOffiKills;
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, Integer> topVagtKills;
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, Integer> topLevel;
+
+    @Deprecated
+    @Migrate
+    private HashMap<String, Integer> topFangeKills;
 }

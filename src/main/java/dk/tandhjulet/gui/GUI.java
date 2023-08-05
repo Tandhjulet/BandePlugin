@@ -26,6 +26,7 @@ import dk.tandhjulet.config.holder.GUIHolder;
 import dk.tandhjulet.events.BandeGUICloseEvent;
 import dk.tandhjulet.events.BandeGUIOpenEvent;
 import dk.tandhjulet.events.BandeGUIOutsideClickEvent;
+import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
 import net.kyori.adventure.text.Component;
 
@@ -228,4 +229,16 @@ public class GUI implements IConfig {
     public void reloadConfig() {
         config.load();
     }
+
+    @Migrate
+    @Deprecated
+    private HashMap<Integer, GUIItem> contents;
+
+    @Migrate
+    @Deprecated
+    private String id;
+
+    @Migrate
+    @Deprecated
+    private Integer rows;
 }

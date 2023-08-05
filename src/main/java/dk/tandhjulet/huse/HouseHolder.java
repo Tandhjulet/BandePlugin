@@ -3,9 +3,12 @@ package dk.tandhjulet.huse;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.tandhjulet.migrator.Migrate;
+
 @Deprecated
 public class HouseHolder {
 
+    @Migrate
     public List<String> houses;
 
     public HouseHolder() {
