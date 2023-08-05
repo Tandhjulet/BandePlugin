@@ -16,7 +16,7 @@ public class PrisonCellsAPI implements IProvider {
     public List<String> getAvailableHouses(World world) {
         List<String> out = new LinkedList<>();
 
-        for (String cell : BandePlugin.getHouseHolder().get()) {
+        for (String cell : BandePlugin.getHouses()) {
             Cell region = CellManager.get().getCell(cell);
             if (region != null && !region.hasOwner()) {
                 out.add(cell);
@@ -27,7 +27,7 @@ public class PrisonCellsAPI implements IProvider {
 
     @Override
     public List<String> getAllHouses() {
-        return BandePlugin.getHouseHolder().get();
+        return BandePlugin.getHouses();
     }
 
     @Override

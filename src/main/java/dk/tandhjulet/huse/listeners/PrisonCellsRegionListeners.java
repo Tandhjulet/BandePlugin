@@ -14,7 +14,7 @@ public class PrisonCellsRegionListeners implements Listener {
     @EventHandler
     public void onCellRent(CellRentedEvent e) {
 
-        if (!BandePlugin.getHouseHolder().get().contains(e.getCell().getName())) {
+        if (!BandePlugin.getHouses().contains(e.getCell().getName())) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class PrisonCellsRegionListeners implements Listener {
 
     @EventHandler
     public void onCellUnrent(CellUnrentedEvent e) {
-        if (!BandePlugin.getHouseHolder().get().contains(e.getCell().getName())) {
+        if (!BandePlugin.getHouses().contains(e.getCell().getName())) {
             return;
         }
 

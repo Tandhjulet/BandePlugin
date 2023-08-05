@@ -2,6 +2,8 @@ package dk.tandhjulet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -17,10 +19,10 @@ import dk.tandhjulet.commands.CommandBAC;
 import dk.tandhjulet.commands.CommandBande;
 import dk.tandhjulet.commands.CommandBandeAdmin;
 import dk.tandhjulet.commands.CommandItemBuilder;
+import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.gui.GUIManager;
-import dk.tandhjulet.gui.InvDataHolder;
+import dk.tandhjulet.gui.InventoryData;
 import dk.tandhjulet.gui.TypeManager;
-import dk.tandhjulet.huse.HouseHolder;
 import dk.tandhjulet.huse.HouseManager;
 import dk.tandhjulet.level.LevelManager;
 import dk.tandhjulet.listeners.ChatListener;
@@ -31,7 +33,7 @@ import dk.tandhjulet.placeholders.Placeholders;
 import dk.tandhjulet.storage.Config;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.storage.Message;
-import dk.tandhjulet.top.BandeTopHolder;
+import dk.tandhjulet.top.BandeTop;
 import dk.tandhjulet.update.UpdateChecker;
 import dk.tandhjulet.utils.Logger;
 import net.milkbowl.vault.chat.Chat;
@@ -46,7 +48,11 @@ public class BandePlugin extends JavaPlugin {
     private static GUIManager guiManager;
     private static TypeManager typeManager;
     private static LevelManager levelManager;
-    private static HouseHolder houseHolder;
+
+    private static List<IConfig> configList = new ArrayList<>();
+
+    @SuppressWarnings("deprecation")
+    private static dk.tandhjulet.huse.HouseHolder houseHolder;
     private static HouseManager houseManager;
     private static Config config;
 
@@ -58,9 +64,9 @@ public class BandePlugin extends JavaPlugin {
 
     private static boolean chatEnabled = false;
 
-    private static InvDataHolder inventoryDataHolder;
+    private static InventoryData inventoryDataHolder;
 
-    private static BandeTopHolder top;
+    private static BandeTop top;
 
     public static boolean isPAPIEnabled;
 
@@ -107,24 +113,23 @@ public class BandePlugin extends JavaPlugin {
             Logger.warn("PlaceholderAPI not installed/found!");
         }
 
-        fm = new FileManager(getDataFolder().getPath());
         api = new BandeAPI();
 
         new HeadDataBaseAPI();
         NBTAPI.init();
 
-        inventoryDataHolder = fm.loadInvDataHolder();
+        inventoryDataHolder = new InventoryData();
 
         typeManager = new TypeManager();
         guiManager = new GUIManager();
         guiManager.reload();
 
-        top = fm.loadTop();
-        top.init();
-
+        top = new BandeTop();
         levelManager = new LevelManager();
 
-        houseHolder = fm.loadHouses();
+        configList.add(config);
+        configList.add(inventoryDataHolder);
+        configList.add(top);
 
         PluginManager pm = Bukkit.getPluginManager();
         if (config.getPrefferedProvider().equalsIgnoreCase("auto")) {
@@ -172,18 +177,15 @@ public class BandePlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("Saving data...");
-        fm.saveInvDataHolder(getInventoryDataHolder());
-
-        BandePlugin.getTop().save();
-        BandePlugin.getAPI().saveAllBander();
-        BandePlugin.getAPI().saveAllPlayers();
-
-        getLogger().info("Saved! Plugin shutting down...");
+        getLogger().info("Plugin shutting down...");
     }
 
-    public static InvDataHolder getInventoryDataHolder() {
+    public static InventoryData getInventoryDataHolder() {
         return inventoryDataHolder;
+    }
+
+    public static void reload() {
+        configList.forEach(i -> i.reloadConfig());
     }
 
     public static void setChatEnabled(boolean to) {
@@ -198,8 +200,13 @@ public class BandePlugin extends JavaPlugin {
         return houseManager;
     }
 
-    public static HouseHolder getHouseHolder() {
+    @Deprecated
+    public static dk.tandhjulet.huse.HouseHolder getHouseHolder() {
         return houseHolder;
+    }
+
+    public static List<String> getHouses() {
+        return getConfiguration().getHouses();
     }
 
     public static void setLevelManager(LevelManager levelManager) {
@@ -253,7 +260,7 @@ public class BandePlugin extends JavaPlugin {
         return chat;
     }
 
-    public static BandeTopHolder getTop() {
+    public static BandeTop getTop() {
         return top;
     }
 
@@ -273,6 +280,7 @@ public class BandePlugin extends JavaPlugin {
         return isPAPIEnabled;
     }
 
+    @Deprecated
     public static FileManager getFileManager() {
         return fm;
     }

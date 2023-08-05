@@ -39,9 +39,6 @@ public class Join {
             sender.clearInvitations();
             bande.removeInvite(sender.getBase().getUniqueId());
 
-            sender.forceSave();
-            bande.forceSave();
-
             Message.sendReplaced(bande.getMemberIterable(), "join.new_join", null, sender.getBase().getName());
 
             Bukkit.getPluginManager().callEvent(new BandeJoinEvent(sender.getBase(), bande));

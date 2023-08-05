@@ -30,7 +30,7 @@ public class AreaShopAPI implements IProvider {
     public List<String> getAvailableHouses(World world) {
         List<String> out = new LinkedList<>();
 
-        for (String cell : BandePlugin.getHouseHolder().get()) {
+        for (String cell : BandePlugin.getHouses()) {
             GeneralRegion region = manager.getRegion(cell);
             if (region != null && region.isAvailable()) {
                 out.add(cell);
@@ -41,7 +41,7 @@ public class AreaShopAPI implements IProvider {
 
     @Override
     public List<String> getAllHouses() {
-        return BandePlugin.getHouseHolder().get();
+        return BandePlugin.getHouses();
     }
 
     @Override

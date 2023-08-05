@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
-import dk.tandhjulet.level.LevelManager;
 import dk.tandhjulet.storage.Message;
 import dk.tandhjulet.utils.Utils;
 
@@ -32,20 +31,14 @@ public class CommandBandeAdmin implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("updatetop")) {
-            BandePlugin.getTop().sortFangeKills();
-            BandePlugin.getTop().sortLevels();
-            BandePlugin.getTop().sortOffiKills();
-            BandePlugin.getTop().sortVagtKills();
+            BandePlugin.getTop().sort();
             sender.sendMessage("Updated top.");
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            sender.sendMessage(Utils.getColored("&aReloader beskeder, levels, shop cooldowns og konfiguration..."));
-            BandePlugin.getConfiguration().reload();
-            Message.init();
-            LevelManager.reload();
-            BandePlugin.getTypeManager().reloadCooldowns();
-            sender.sendMessage(Utils.getColored("&aReloadede beskeder, levels, shop cooldowns og konfiguration."));
+            sender.sendMessage(Utils.getColored("&aReloader pluginnet..."));
+            BandePlugin.reload();
+            sender.sendMessage(Utils.getColored("&aReloadede pluginnet."));
         }
 
         if (args.length >= 2 && args[0].equalsIgnoreCase("disband")) {
@@ -59,13 +52,12 @@ public class CommandBandeAdmin implements CommandExecutor {
             for (UUID uuid : bande.getMemberIterable()) {
                 BandePlayer player = BandePlugin.getAPI().getPlayer(uuid);
                 player.setBande(null, null);
-                player.forceSave();
 
                 Message.sendReplaced(player.getBase(), "disband.force_message", null, sender.getName());
             }
 
             bande.invalidate();
-            BandePlugin.getFileManager().removeBande(bande.getName());
+            bande.destroy();
             sender.sendMessage(ChatColor.RED + "Du opløste banden " + bandeName + ".");
         }
 
@@ -100,12 +92,12 @@ public class CommandBandeAdmin implements CommandExecutor {
                 return true;
             }
 
-            BandePlugin.getHouseHolder().add(cellName);
+            BandePlugin.getConfiguration().addHouse(cellName);
             sender.sendMessage("Du tilføjede cellen " + cellName + " til bande husene.");
         } else if (args.length >= 3 && args[0].equalsIgnoreCase("bandehus") && args[1].equalsIgnoreCase("remove")) {
             String cellName = args[2];
 
-            BandePlugin.getHouseHolder().remove(cellName);
+            BandePlugin.getConfiguration().removeHouse(cellName);
             sender.sendMessage("Du fjernede " + cellName + " fra bande husene.");
         }
 

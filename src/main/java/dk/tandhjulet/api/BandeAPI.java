@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,9 +19,9 @@ import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
 import dk.tandhjulet.gui.GUI;
 import dk.tandhjulet.hooks.WorldGuardHook;
-import dk.tandhjulet.huse.HouseHolder;
 import dk.tandhjulet.huse.HouseManager;
 import dk.tandhjulet.placeholders.BandePlaceholders;
+import dk.tandhjulet.storage.FileManager;
 
 public class BandeAPI {
     private LoadingCache<String, Optional<Bande>> bandeCache;
@@ -33,7 +32,7 @@ public class BandeAPI {
 
             @Override
             public Optional<Bande> load(String bandeName) {
-                Optional<Bande> result = Optional.ofNullable(BandePlugin.getFileManager().loadBande(bandeName));
+                Optional<Bande> result = Optional.ofNullable(FileManager.getBande(bandeName));
                 return result;
             }
         };
@@ -43,26 +42,10 @@ public class BandeAPI {
 
             @Override
             public BandePlayer load(UUID uuid) {
-                return BandePlugin.getFileManager().loadPlayer(uuid);
+                return FileManager.loadUncachedUser(uuid);
             }
         };
         playerCache = CacheBuilder.newBuilder().build(playerLoader);
-    }
-
-    public synchronized void saveAllBander() {
-        bandeCache.asMap().values().forEach(optional -> {
-            Bande bande = optional.orElse(null);
-            if (bande != null && bande.isDirty())
-                bande.forceSave();
-        });
-    }
-
-    public synchronized void saveAllPlayers() {
-        playerCache.asMap().values().forEach(player -> {
-            if (player.isDirty() && Bukkit.getOfflinePlayer(player.getBase().getUniqueId()).isOnline()
-                    && Bukkit.getPlayer(player.getBase().getName()) != null)
-                player.forceSave();
-        });
     }
 
     public void addToCache(Player player, BandePlayer bandeplayer) {
@@ -77,19 +60,32 @@ public class BandeAPI {
         return playerCache.getUnchecked(uuid);
     }
 
+    public BandePlayer getIfPresent(Player player) {
+        return playerCache.getIfPresent(player);
+    }
+
+    public Bande getIfPresent(String bande) {
+        return bandeCache.getIfPresent(bande).orElse(null);
+    }
+
     public synchronized BandePlayer getPlayer(Player player) {
-        return playerCache.getUnchecked(player.getUniqueId());
+        BandePlayer p = playerCache.getUnchecked(player.getUniqueId());
+        if (p == null || p.isDestroyed()) {
+            return null;
+        }
+        return p;
     }
 
     public synchronized Bande getBande(String bande) {
-        return bandeCache.getUnchecked(bande).orElse(null);
+        Bande b = bandeCache.getUnchecked(bande).orElse(null);
+        if (b == null || b.isDestroyed()) {
+            return null;
+        }
+        return b;
     }
 
     public Bande createBande(String name, UUID owner) {
         Bande bande = new Bande(name, owner);
-        bande.init();
-        BandePlugin.getFileManager().saveBande(name, bande);
-
         return bande;
     }
 
@@ -149,7 +145,8 @@ public class BandeAPI {
         return BandePlugin.getHouseManager();
     }
 
-    public HouseHolder getHouseHolder() {
+    @Deprecated
+    public dk.tandhjulet.huse.HouseHolder getHouseHolder() {
         return BandePlugin.getHouseHolder();
     }
 

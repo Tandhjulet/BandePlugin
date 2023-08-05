@@ -21,11 +21,8 @@ public class Forlad {
 
         BandeRank rank = sender.getBandeRank();
         bande.removeMember(rank, sender.getBase().getUniqueId());
-        bande.forceSave();
 
         sender.setBande(null, null);
-
-        sender.forceSave();
 
         Bukkit.getPluginManager().callEvent(new BandeForladEvent(sender.getBase(), bande));
     }

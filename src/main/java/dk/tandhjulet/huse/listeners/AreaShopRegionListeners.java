@@ -13,7 +13,7 @@ public class AreaShopRegionListeners implements Listener {
 
     @EventHandler
     public void onRegionRent(RentingRegionEvent e) {
-        if (!BandePlugin.getHouseHolder().get().contains(e.getRegion().getName())) {
+        if (!BandePlugin.getHouses().contains(e.getRegion().getName())) {
             return;
         }
 
@@ -39,7 +39,7 @@ public class AreaShopRegionListeners implements Listener {
 
     @EventHandler
     public void onRegionUnrent(UnrentingRegionEvent e) {
-        if (!BandePlugin.getHouseHolder().get().contains(e.getRegion().getName())) {
+        if (!BandePlugin.getHouses().contains(e.getRegion().getName())) {
             return;
         }
 

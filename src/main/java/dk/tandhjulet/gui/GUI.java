@@ -1,6 +1,6 @@
 package dk.tandhjulet.gui;
 
-import java.io.Serializable;
+import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -20,22 +20,22 @@ import dev.triumphteam.gui.guis.GuiItem;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
+import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.config.IConfig;
+import dk.tandhjulet.config.holder.GUIHolder;
 import dk.tandhjulet.events.BandeGUICloseEvent;
 import dk.tandhjulet.events.BandeGUIOpenEvent;
 import dk.tandhjulet.events.BandeGUIOutsideClickEvent;
 import dk.tandhjulet.storage.Message;
 import net.kyori.adventure.text.Component;
 
-public class GUI implements Serializable {
-    private static transient final long serialVersionUID = 3L;
+public class GUI implements IConfig {
+    private BandeConfig config;
+    private GUIHolder holder;
 
     private transient GuiAction<InventoryCloseEvent> closeGuiAction;
     private transient GuiAction<InventoryOpenEvent> openGuiAction;
     private transient GuiAction<InventoryClickEvent> outsideClickAction;
-
-    private HashMap<Integer, GUIItem> contents;
-    private String id;
-    private Integer rows;
 
     // special use case; used in member administration
     private UUID offender;
@@ -53,24 +53,28 @@ public class GUI implements Serializable {
     }
 
     public GUI(String id, Integer rows) {
-        contents = new HashMap<>();
-        if (rows != null) {
-            this.rows = rows;
-        } else {
-            this.rows = 6;
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "guis");
+        if (!folder.exists() && !folder.mkdirs()) {
+            throw new RuntimeException("Unable to create gui folder!");
         }
 
-        if (id != null) {
-            this.id = id;
-        } else {
-            this.id = "Intet navn specificeret.";
+        config = new BandeConfig(new File(folder, id + ".yml"));
+        config.setSaveHook(() -> {
+            config.setRootHolder(GUIHolder.class, holder);
+        });
+
+        if (holder.id() == null) {
+            holder.id(id);
+        }
+        if (holder.rows() != rows) {
+            holder.rows(rows);
         }
 
         init();
     }
 
     public String getId() {
-        return id;
+        return holder.id();
     }
 
     public void init() {
@@ -78,11 +82,11 @@ public class GUI implements Serializable {
         setCloseGuiAction(null);
         setOpenGuiAction(null);
 
-        contents.values().stream().forEach(item -> item.loadConsumer());
+        holder.contents().values().stream().forEach(item -> item.loadConsumer());
     }
 
     public Integer getRows() {
-        return this.rows;
+        return holder.rows();
     }
 
     public void setOutsideClickAction(final GuiAction<InventoryClickEvent> outsideClickAction) {
@@ -113,23 +117,26 @@ public class GUI implements Serializable {
     }
 
     public void setItem(int id, GUIItem item) {
-        this.contents.put(id, item);
+        holder.contents().put(id, item);
+        config.save();
     }
 
     public void setItem(int id, GuiItem item) {
-        this.contents.put(id, new GUIItem(item.getItemStack(), null));
+        holder.contents().put(id, new GUIItem(item.getItemStack(), null));
+        config.save();
     }
 
     public void setContents(HashMap<Integer, GUIItem> contents) {
-        this.contents = contents;
+        holder.contents(contents);
+        config.save();
     }
 
     public void open(Player openTo, OfflinePlayer data, final boolean interaction, final boolean handle) {
 
-        String name = BandePlugin.getInventoryDataHolder().getName(this.id);
-        Integer size = BandePlugin.getInventoryDataHolder().getSize(this.id);
+        String name = BandePlugin.getInventoryDataHolder().getName(holder.id());
+        Integer size = BandePlugin.getInventoryDataHolder().getSize(holder.id());
         if (size == null)
-            size = this.rows;
+            size = holder.rows();
 
         BandePlayer bandePlayer = BandePlugin.getAPI().getPlayer(data.getUniqueId());
         final Bande bande;
@@ -146,7 +153,7 @@ public class GUI implements Serializable {
         else
             gui.enableAllInteractions();
 
-        contents.forEach((slot, item) -> {
+        holder.contents().forEach((slot, item) -> {
 
             if (interaction) {
 
@@ -215,5 +222,10 @@ public class GUI implements Serializable {
             }
 
         gui.open((HumanEntity) openTo);
+    }
+
+    @Override
+    public void reloadConfig() {
+        config.load();
     }
 }

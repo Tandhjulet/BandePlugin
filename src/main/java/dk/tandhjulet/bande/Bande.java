@@ -1,13 +1,10 @@
 package dk.tandhjulet.bande;
 
-import java.io.Serializable;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.AbstractMap.SimpleEntry;
 
@@ -18,111 +15,86 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import dk.tandhjulet.BandePlugin;
+import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.config.IConfig;
+import dk.tandhjulet.config.holder.BandeHolder;
 import dk.tandhjulet.enums.BandeRank;
 import dk.tandhjulet.events.BandeBankUpdateEvent;
 import dk.tandhjulet.events.BandeNewAccessEvent;
 import dk.tandhjulet.hooks.WorldGuardHook;
-import dk.tandhjulet.storage.Config;
+import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
 
-public class Bande implements Serializable {
+public class Bande implements IConfig {
+    private final BandeConfig config;
+    private BandeHolder holder;
 
-    private transient Timer timer;
-
-    private static transient final long serialVersionUID = 1L;
-    private transient boolean dirty;
-
-    private String name;
-    private HashMap<BandeRank, HashSet<UUID>> members;
-    private HashSet<String> alliances;
-    private HashSet<String> rivals;
-    private Integer level;
-
-    private String bandeHus;
-    private List<String> access;
-
-    private HashSet<UUID> invitations;
-    private HashSet<String> incommingAllyInvitations;
-
-    private Integer maxMembers;
-    private Integer maxAlliances;
-    private Integer maxRivals;
-
-    private Integer allySkade;
-    private Integer bandeSkade;
-
-    private BigDecimal balance;
+    private transient boolean isDestroyed = false;
 
     public Bande(String name, UUID owner) {
-        this.name = name;
-        members = new HashMap<BandeRank, HashSet<UUID>>() {
-            {
-                put(BandeRank.EJER, new HashSet<>());
-                put(BandeRank.ADMIN, new HashSet<>());
-                put(BandeRank.MOD, new HashSet<>());
-                put(BandeRank.MEDLEM, new HashSet<>());
-            }
-        };
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        if (!folder.exists() && !folder.mkdirs()) {
+            throw new RuntimeException("Unable to create userdata folder!");
+        }
 
-        alliances = new HashSet<String>();
-        rivals = new HashSet<String>();
+        config = new BandeConfig(new File(folder, name + ".yml"));
+        config.setSaveHook(() -> {
+            config.setRootHolder(BandeHolder.class, holder);
+        });
 
-        balance = new BigDecimal(0);
-        level = 1;
+        reloadConfig();
 
-        Config conf = BandePlugin.getConfiguration();
-        maxMembers = conf.getStartMembers();
-        maxAlliances = conf.getStartAlly();
-        maxRivals = conf.getStartRival();
+        if (holder.name() == null) { // Assume first initialization
+            holder.name(name);
+            BandePlugin.getTop().setLevel(1, getName());
+            addMember(BandeRank.EJER, owner);
+        }
 
-        allySkade = 100;
-        bandeSkade = 100;
-
-        incommingAllyInvitations = new HashSet<>();
-        invitations = new HashSet<>();
-
-        access = new LinkedList<>();
-
-        addMember(BandeRank.EJER, owner);
-
-        BandePlugin.getTop().setLevel(level, getName());
-        forceSave();
-        setDirty(false);
+        save();
     }
 
-    public Timer getTimer() {
-        return timer;
+    public void destroy() {
+        config.getFile().deleteOnExit();
+        this.isDestroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public List<String> getAccessList() {
-        return access;
+        return holder.access();
     }
 
     public void setBandeHus(String hus) {
-        bandeHus = hus;
-        setDirty(true);
+        holder.bandeHus(hus);
+        save();
     }
 
     public String getBandeHus() {
-        return bandeHus;
+        return holder.bandeHus();
     }
 
     public Boolean hasBandeHus() {
-        return bandeHus != null && bandeHus != "";
+        return holder.bandeHus() != null && holder.bandeHus() != "";
     }
 
     public void addAccess(String regionName) {
+        List<String> access = holder.access();
         access.add(regionName);
-        setDirty(true);
+        holder.access(access);
 
+        save();
         Bukkit.getPluginManager().callEvent(new BandeNewAccessEvent(this, regionName));
     }
 
     public HashSet<String> getAllianceInvites() {
-        return incommingAllyInvitations;
+        return holder.incommingAllyInvitations();
     }
 
     public void addAllyInvite(Bande from, BandePlayer sender) {
+        HashSet<String> incommingAllyInvitations = holder.incommingAllyInvitations();
+
         if (from == this) {
             Message.sendReplaced(sender, "ally.invite_own_bande", null);
             return;
@@ -137,12 +109,7 @@ public class Bande implements Serializable {
                 new SimpleEntry<String, String>("run_command", "/bande ally " + from.getName()), from.getName());
         Message.sendReplaced(from.getMemberIterable(), "ally.invite_message_to", null, this.getName());
 
-        setDirty(true);
-    }
-
-    public void init() {
-        this.timer = new Timer();
-        timer.schedule(new BackgroundSaver(), 1000 * 20, 1000 * 20);
+        save();
     }
 
     public Iterable<UUID> getMemberIterable() {
@@ -150,8 +117,11 @@ public class Bande implements Serializable {
     }
 
     public void removeInvite(UUID uuid) {
+        HashSet<UUID> invitations = holder.invitations();
         invitations.remove(uuid);
-        setDirty(true);
+        holder.invitations(invitations);
+
+        save();
     }
 
     public boolean kick(BandePlayer sender, UUID uuid) {
@@ -174,8 +144,7 @@ public class Bande implements Serializable {
         this.removeMember(player.getBandeRank(), uuid);
         player.setBande(null, null);
 
-        player.forceSave();
-        this.forceSave();
+        this.save();
 
         return true;
     }
@@ -198,7 +167,7 @@ public class Bande implements Serializable {
             return false;
         }
 
-        invitations.add(p.getUniqueId());
+        addInvitation(p.getUniqueId());
         bandePlayer.addInvitation(getName());
 
         Message.sendReplaced(p, "invite.to_invited", null, getName());
@@ -209,69 +178,78 @@ public class Bande implements Serializable {
         return true;
     }
 
+    public void addInvitation(UUID toInvite) {
+        HashSet<UUID> invitations = holder.invitations();
+        invitations.add(toInvite);
+        holder.invitations(invitations);
+
+        save();
+    }
+
     public Integer getAllySkade() {
-        return allySkade;
+        return holder.allySkade();
     }
 
     public void removeAllySkade() {
-        allySkade -= 1;
-        setDirty(true);
+        holder.allySkade((holder.allySkade() - 1));
+        save();
     }
 
     public void addMaxMember() {
-        maxMembers += 1;
-        setDirty(true);
+        holder.maxMembers((holder.maxMembers() + 1));
+        save();
     }
 
     public Integer getBandeSkade() {
-        return bandeSkade;
+        return holder.bandeSkade();
     }
 
     public void removeBandeSkade() {
-        bandeSkade -= 1;
-        setDirty(true);
+        holder.bandeSkade((holder.bandeSkade() - 1));
+        save();
     }
 
     public Integer getMaxMembers() {
-        return maxMembers;
+        return holder.maxMembers();
     }
 
     public Integer getMaxAlliances() {
-        return maxAlliances;
+        return holder.maxAlliances();
     }
 
     public Integer getMaxRivals() {
-        return maxRivals;
+        return holder.maxRivals();
     }
 
     public HashSet<String> getRivals() {
-        return rivals;
+        return holder.rivals();
     }
 
     public int getRivalAmount() {
-        return rivals.size();
+        return getRivals().size();
     }
 
     public HashSet<String> getAlliances() {
-        return alliances;
+        return holder.alliances();
     }
 
     public int getAllianceAmount() {
-        return alliances.size();
+        return getAlliances().size();
     }
 
     public HashMap<BandeRank, HashSet<UUID>> getMembers() {
-        return members;
+        return holder.members();
     }
 
     public Integer getLevel() {
-        return level;
+        return holder.level();
     }
 
     public void addLevel() {
-        level += 1;
-        BandePlugin.getTop().setLevel(level, getName());
-        setDirty(true);
+        BandePlugin.getTop().setLevel(getLevel() + 1, getName());
+
+        holder.level(getLevel() + 1);
+        save();
     }
 
     public UUID getOwner() {
@@ -279,75 +257,89 @@ public class Bande implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return holder.name();
     }
 
     public void addAlliance(Bande alliance) {
+        HashSet<String> alliances = holder.alliances();
         alliances.add(alliance.getName());
-        setDirty(true);
+        holder.alliances(alliances);
 
-        forceSave();
+        save();
     }
 
     public void removeAllianceInvite(String name) {
-        incommingAllyInvitations.remove(name);
-        setDirty(true);
+        HashSet<String> incommingAllyInvitations = holder.incommingAllyInvitations();
+        incommingAllyInvitations.add(name);
+        holder.incommingAllyInvitations(incommingAllyInvitations);
+
+        save();
     }
 
     public boolean isMaxAlliances() {
-        return maxAlliances <= alliances.size();
+        return holder.maxAlliances() <= getAllianceAmount();
     }
 
     public boolean isMaxRivals() {
-        return maxAlliances <= alliances.size();
+        return holder.maxRivals() <= getRivalAmount();
     }
 
     public void addMaxAlliance() {
-        maxAlliances += 1;
-        setDirty(true);
+        holder.maxAlliances(holder.maxAlliances() + 1);
+        save();
     }
 
     public void addMaxRivals() {
-        maxRivals += 1;
-        setDirty(true);
+        holder.maxRivals(holder.maxRivals() + 1);
+        save();
     }
 
     public void removeAlliance(Bande alliance) {
+        HashSet<String> alliances = holder.alliances();
         alliances.remove(alliance.getName());
-        setDirty(true);
+        holder.alliances(alliances);
 
-        forceSave();
+        save();
     }
 
     public void addRival(Bande rival) {
+        HashSet<String> rivals = holder.rivals();
         rivals.add(rival.getName());
-        setDirty(true);
+        holder.rivals(rivals);
+
+        save();
     }
 
     public void removeRival(Bande rival) {
+        HashSet<String> rivals = holder.rivals();
         rivals.remove(rival.getName());
-        setDirty(true);
+        holder.rivals(rivals);
+
+        save();
     }
 
     public BigDecimal getBalance() {
-        return balance;
+        return holder.balance();
     }
 
     public void addToBalance(BigDecimal amount) {
-        this.balance = getBalance().add(amount);
-        setDirty(true);
+        holder.balance(getBalance().add(amount));
+        save();
+
         Bukkit.getPluginManager().callEvent(new BandeBankUpdateEvent(this, amount, getBalance()));
     }
 
     public void setBalance(BigDecimal newBalance) {
-        this.balance = newBalance;
-        setDirty(true);
+        holder.balance(newBalance);
+        save();
+
         Bukkit.getPluginManager().callEvent(new BandeBankUpdateEvent(this, newBalance, newBalance));
     }
 
     public void removeBalance(BigDecimal toRemove) {
-        this.balance = balance.subtract(toRemove);
-        setDirty(true);
+        holder.balance(getBalance().subtract(toRemove));
+        save();
+
         Bukkit.getPluginManager()
                 .callEvent(new BandeBankUpdateEvent(this, toRemove.multiply(new BigDecimal(-1)), getBalance()));
     }
@@ -358,11 +350,14 @@ public class Bande implements Serializable {
             WorldGuardHook.addMember(access, user, BandePlugin.getConfiguration().getMainWorld());
         }
 
+        HashMap<BandeRank, HashSet<UUID>> members = getMembers();
         HashSet<UUID> uuids = members.get(rank);
         uuids.add(user);
-        members.put(rank, uuids);
 
-        setDirty(true);
+        members.put(rank, uuids);
+        holder.members(members);
+
+        save();
     }
 
     public void removeMember(BandeRank rank, UUID user) {
@@ -371,42 +366,91 @@ public class Bande implements Serializable {
             WorldGuardHook.removeMember(access, user, BandePlugin.getConfiguration().getMainWorld());
         }
 
+        HashMap<BandeRank, HashSet<UUID>> members = getMembers();
         HashSet<UUID> uuids = members.get(rank);
         uuids.remove(user);
-        members.put(rank, uuids);
 
-        setDirty(true);
+        members.put(rank, uuids);
+        holder.members(members);
+
+        save();
     }
 
-    public void forceSave() {
-        BandePlugin.getFileManager().saveBande(getName(), this);
-        setDirty(false);
+    private void updateCache() {
+        BandePlugin.getAPI().addToCache(getName(), this);
     }
 
     public void invalidate() {
         BandePlugin.getAPI().discardCache(this);
     }
 
-    public void updateCache() {
-        BandePlugin.getAPI().addToCache(getName(), this);
-    }
-
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
+    private void save() {
+        config.save();
         updateCache();
     }
 
-    public boolean isDirty() {
-        return dirty;
+    @Override
+    public void reloadConfig() {
+        config.load();
     }
 
-    private class BackgroundSaver extends TimerTask {
-        @Override
-        public synchronized void run() {
-            if (isDirty()) {
-                BandePlugin.getFileManager().saveBande(getName(), Bande.this);
-                setDirty(false);
-            }
-        }
-    }
+    @Deprecated
+    @Migrate
+    private String name;
+
+    @Deprecated
+    @Migrate
+    private HashMap<BandeRank, HashSet<UUID>> members;
+
+    @Deprecated
+    @Migrate
+    private HashSet<String> alliances;
+
+    @Deprecated
+    @Migrate
+    private HashSet<String> rivals;
+
+    @Deprecated
+    @Migrate
+    private Integer level;
+
+    @Deprecated
+    @Migrate
+    private String bandeHus;
+
+    @Deprecated
+    @Migrate
+    private List<String> access;
+
+    @Deprecated
+    @Migrate
+    private HashSet<UUID> invitations;
+
+    @Deprecated
+    @Migrate
+    private HashSet<String> incommingAllyInvitations;
+
+    @Deprecated
+    @Migrate
+    private Integer maxMembers;
+
+    @Deprecated
+    @Migrate
+    private Integer maxAlliances;
+
+    @Deprecated
+    @Migrate
+    private Integer maxRivals;
+
+    @Deprecated
+    @Migrate
+    private Integer allySkade;
+
+    @Deprecated
+    @Migrate
+    private Integer bandeSkade;
+
+    @Deprecated
+    @Migrate
+    private BigDecimal balance;
 }

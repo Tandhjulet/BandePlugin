@@ -53,8 +53,6 @@ public class EditGUI {
                 GUI newGUI = new GUI(name, GUI.getRows());
                 newGUI.setContents(contents);
 
-                BandePlugin.getFileManager().saveGUI(name, newGUI);
-
                 BandePlugin.getGuiManager().removeGui(name);
                 BandePlugin.getGuiManager().addGui(name, newGUI);
 

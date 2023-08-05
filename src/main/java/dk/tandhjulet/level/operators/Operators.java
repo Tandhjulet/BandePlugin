@@ -8,7 +8,7 @@ public class Operators {
         return new Operator(">=", 2, true, Operator.PRECEDENCE_ADDITION - 1) {
 
             @Override
-            public double apply(double[] values) {
+            public double apply(double... values) {
                 if (values[0] >= values[1]) {
                     return 1d;
                 } else {
@@ -22,7 +22,7 @@ public class Operators {
         return new Operator("==", 2, true, Operator.PRECEDENCE_ADDITION - 1) {
 
             @Override
-            public double apply(double[] values) {
+            public double apply(double... values) {
                 if (values[0] == values[1]) {
                     return 1d;
                 } else {
@@ -36,7 +36,7 @@ public class Operators {
         return new Operator(">", 2, true, Operator.PRECEDENCE_ADDITION - 1) {
 
             @Override
-            public double apply(double[] values) {
+            public double apply(double... values) {
                 if (values[0] > values[1]) {
                     return 1d;
                 } else {

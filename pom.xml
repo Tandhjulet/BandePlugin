@@ -140,6 +140,18 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>configurate-yaml</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId> 
+            <version>0.9.12</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -188,17 +200,22 @@
 
                     <relocations>
                         <relocation>
+                            <pattern>org.spongepowered.configurate</pattern>
+                            <shadedPattern>dk.tandhjulet.libs.configurate</shadedPattern>
+                        </relocation>
+
+                        <relocation>
                             <pattern>dev.triumphteam.gui</pattern>
-                            <shadedPattern>dk.tandhjulet.bandeapi.gui</shadedPattern>
+                            <shadedPattern>dk.tandhjulet.libs.gui</shadedPattern>
                         </relocation>
 
                         <relocation>
                             <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                            <shadedPattern>dk.tandhjulet.bandeapi.nbt</shadedPattern>
+                            <shadedPattern>dk.tandhjulet.libs.nbt</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.tr7zw.annotations</pattern>
-                            <shadedPattern>dk.tandhjulet.bandeapi.annotations</shadedPattern>
+                            <shadedPattern>dk.tandhjulet.libs.annotations</shadedPattern>
                         </relocation>
                     </relocations>
 

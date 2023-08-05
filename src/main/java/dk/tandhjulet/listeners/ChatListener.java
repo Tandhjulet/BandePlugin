@@ -75,7 +75,6 @@ public class ChatListener implements Listener {
             Bande bande = BandePlugin.getAPI().createBande(e.getMessage(), e.getPlayer().getUniqueId());
 
             player.setBande(bande.getName(), BandeRank.EJER);
-            player.forceSave();
 
             BandePlugin.getAPI().discardCache(player);
             Message.sendReplaced(e.getPlayer(), "bande_create.bande_created", null, e.getMessage());

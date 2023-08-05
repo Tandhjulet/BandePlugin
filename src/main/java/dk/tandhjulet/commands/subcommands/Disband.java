@@ -1,6 +1,5 @@
 package dk.tandhjulet.commands.subcommands;
 
-import java.util.Timer;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -35,17 +34,12 @@ public class Disband {
         for (UUID uuid : bande.getMemberIterable()) {
             BandePlayer player = BandePlugin.getAPI().getPlayer(uuid);
             player.setBande(null, null);
-            player.forceSave();
 
             Message.sendReplaced(player.getBase(), "disband.message", null, sender.getBase().getName());
         }
 
-        Timer bandeTimer = bande.getTimer();
-        if (bandeTimer != null)
-            bandeTimer.cancel();
-
         BandePlugin.getTop().removeBande(bande.getName());
         bande.invalidate();
-        BandePlugin.getFileManager().removeBande(bande.getName());
+        bande.destroy();
     }
 }

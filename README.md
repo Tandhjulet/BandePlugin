@@ -12,15 +12,17 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 - Ethvert permissions plugin (f.eks LuckPerms)
 
 *Optionelle udvidelser:*
-- PrisonCells
-- AreaShop
+- PrisonCells/AreaShop
 - WorldGuard
 - Skript
 
 ---------------------------------------------------------
 
 TODO
-- ???
+- Revamp af storage system (Mangler Config.java + FileManager.java)
+- Revamp Messager class (Message.java)
+- Migrator fra gammelt storage system -> nyt
+- Test alt.
 
 ---------------------------------------------------------
 
@@ -50,9 +52,6 @@ TODO
 | API                                 	| &#9745; 	|
 | Automatic update checker          	| &#9745; 	|
 | Plug-and-play                         | &#9745; 	|
-| MongoDB Support (Kommer)            	| &#9744; 	|
-| MariaDB Support (Kommer)            	| &#9744; 	|
-| Cassandra Support (Kommer)          	| &#9744; 	|
 
 ---------------------------------------------------------
 

@@ -7,6 +7,7 @@ import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.placeholders.BandePlaceholders;
 import dk.tandhjulet.utils.Utils;
 
+/* Credit til FlupMC/simonmaribo */
 public class Replacer {
     private static final Pattern pattern;
 

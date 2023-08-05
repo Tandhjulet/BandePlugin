@@ -1,6 +1,44 @@
 WORLD: "world" # VIGTIGT at dette står til den verden, hvori dine bandehuse ligger.
                # Bruger du ikke den feature, burde du godt kunne ignorere dette.
-custom_chat_enabled: true # Bemærk du kan ændre formaten i messages.yml!
+custom_chat_enabled: false # Bemærk du kan ændre formaten i messages.yml!
+dynamic_items:
+  member_list_format: "&d&l • &8[&7{0}&8] &f{1}"
+  no_invites: "&cIngen inviteringer"
+  invites_name: "&d&l%name%"
+  invites:
+    - "&fBank: &d$%bank%"
+    - "&f"
+    - "&fMedlemmer: &d%amount_member%"
+    - "&fRivaler: &d%amount_rivals%"
+    - "&fAllierede: &d%amount_allies%"
+  member_name_color: "&d&l"
+  member_lore:
+    - "&fRank: &d%player_bande_rank%"
+    - "&f"
+    - "&fKlik for at administrere!"
+  ally_name_color: "&a&l"
+  ally_lore:
+    - "&fKlik for at fjerne!"
+  no_allys: "&cIngen allierede."
+  rival_name_color: "&c&l"
+  rivals_lore:
+    - "&fKlik for at fjerne!"
+  no_rivals: "&cIngen rivaler."
+  begraensninger_lore:
+    - "&d&l%name% &8[&f%level%&8]"
+    - "&f"
+    - "&fMedlemmer: &d%amount_member%/%max_member%"
+    - "&fAllierede: &d%amount_allies%/%max_allies%"
+    - "&fMedlemmer: &d%amount_rivals%/%max_rivals%"
+    - "&f"
+    - "&fAlly skade &f: &d %allyskade%%"
+    - "&fBande skade &f: &d %bandeskade%%"
+  bande_stats_lore:
+    - "&fLevel: &d%level%"
+    - "&f"
+    - "&fOfficer kills: &d%officerkills%"
+    - "&fVagt kills: &d%vagtkills%"
+    - "&fFange kills: &d%fangekills%"
 bande:
   bande_name_minimum_length: 3
   bande_name_maximum_length: 10
@@ -43,3 +81,4 @@ cooldowns: # Alle cooldownsne er i millisekunder. For at lave sekunder om til mi
   speed-buff-cooldown: 900000 # 15 minutter
   strength-buff-cooldown: 1800000 # 30 minutter
   hunger-buff-cooldown: 450000 # 7.5 minutter
+houses:

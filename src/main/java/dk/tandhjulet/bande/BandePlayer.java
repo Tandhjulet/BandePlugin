@@ -1,56 +1,72 @@
 package dk.tandhjulet.bande;
 
-import java.io.Serializable;
+import java.io.File;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import dk.tandhjulet.BandePlugin;
+import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.config.IConfig;
+import dk.tandhjulet.config.holder.BandePlayerHolder;
 import dk.tandhjulet.enums.BandeRank;
 import dk.tandhjulet.enums.ChatStatus;
+import dk.tandhjulet.storage.FileManager;
 
-public class BandePlayer implements Serializable {
+public class BandePlayer implements IConfig {
+    private BandeConfig config;
+    private BandePlayerHolder holder;
 
-    public transient Timer timer;
+    private transient boolean isDestroyed = false;
+
     private transient Player cachedPlayer;
-
-    private static transient final long serialVersionUID = 2L;
-    private transient boolean dirty = true;
-
     private transient ChatStatus disabled;
     private transient String previousGui;
 
-    private UUID base;
-    private String bande;
-    private BandeRank bandeRank;
-    private HashSet<String> invitations;
+    public BandePlayer(UUID base) throws Exception {
+        File userFile = FileManager.getUserFile(base);
+        if (userFile.exists()) {
 
-    public BandePlayer(Player base) {
-        this.base = base.getUniqueId();
-        this.invitations = new HashSet<>();
+            config = new BandeConfig(userFile);
+            config.setSaveHook(() -> {
+                config.setRootHolder(BandePlayerHolder.class, holder);
+            });
 
-        this.bande = null;
-        this.bandeRank = null;
+            this.cachedPlayer = Bukkit.getServer().getPlayer(base);
+            reloadConfig();
+        } else {
+            throw new RuntimeException("Could not create Bande Player File for non-joined player!");
+        }
     }
 
-    public void init() {
-        this.timer = new Timer();
-        timer.schedule(new BackgroundSaver(), 1000 * 30, 1000 * 30);
+    public BandePlayer(Player base) {
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        if (!folder.exists() && !folder.mkdirs()) {
+            throw new RuntimeException("Unable to create userdata folder!");
+        }
+
+        config = new BandeConfig(new File(folder, base.getUniqueId() + ".yml"));
+        config.setSaveHook(() -> {
+            config.setRootHolder(BandePlayerHolder.class, holder);
+        });
+
+        this.cachedPlayer = base;
+        reloadConfig();
+    }
+
+    public void destroy() {
+        config.getFile().deleteOnExit();
+        this.isDestroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public String getPreviousGUI() {
         return previousGui;
-    }
-
-    public void setBase(Player base) {
-        if (this.base != base.getUniqueId()) {
-            this.base = base.getUniqueId();
-            setDirty(true);
-        }
     }
 
     public void setPreviousGUI(String id) {
@@ -58,27 +74,29 @@ public class BandePlayer implements Serializable {
         updateCache();
     }
 
-    public Timer getTimer() {
-        return timer;
-    }
-
     public void setBandeRank(BandeRank rank) {
-        this.bandeRank = rank;
-        setDirty(true);
+        holder.bandeRank(rank);
+        save();
     }
 
     public HashSet<String> getInvitations() {
-        return invitations;
+        return holder.invitations();
     }
 
     public void addInvitation(String bandeName) {
+        HashSet<String> invitations = holder.invitations();
         invitations.add(bandeName);
-        setDirty(true);
+        holder.invitations(invitations);
+
+        save();
     }
 
     public void removeInvitation(String bandeName) {
+        HashSet<String> invitations = holder.invitations();
         invitations.remove(bandeName);
-        setDirty(true);
+        holder.invitations(invitations);
+
+        save();
     }
 
     public void setChat(ChatStatus chatReason) {
@@ -98,37 +116,38 @@ public class BandePlayer implements Serializable {
 
     public Player getBase() {
         if (cachedPlayer == null || !cachedPlayer.isOnline())
-            cachedPlayer = Bukkit.getOfflinePlayer(base).getPlayer();
+            cachedPlayer = Bukkit.getOfflinePlayer(holder.base()).getPlayer();
         return cachedPlayer;
     }
 
     public UUID getBaseAsUUID() {
-        return base;
+        return holder.base();
     }
 
     public boolean hasBande() {
-        return bande != null;
+        return holder.bande() != null;
     }
 
     public void setBande(String bandeName, BandeRank rank) {
-        this.bande = bandeName;
-        this.bandeRank = rank;
-        setDirty(true);
+        holder.bande(bandeName);
+        holder.bandeRank(rank);
+
+        save();
     }
 
     public BandeRank getBandeRank() {
-        return bandeRank;
+        return holder.bandeRank();
     }
 
     public Bande getBande() {
-        if (bande == null)
+        if (holder.bande() == null)
             return null;
-        return BandePlugin.getAPI().getBande(bande);
+        return BandePlugin.getAPI().getBande(holder.bande());
     }
 
     public void clearInvitations() {
-        this.invitations = new HashSet<>();
-        setDirty(true);
+        holder.invitations(new HashSet<>());
+        save();
     }
 
     public void invalidate() {
@@ -139,29 +158,14 @@ public class BandePlayer implements Serializable {
         BandePlugin.getAPI().addToCache(getBase(), this);
     }
 
-    public void forceSave() {
-        BandePlugin.getFileManager().savePlayer(this);
-        setDirty(false);
-    }
-
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
+    private void save() {
+        config.save();
         updateCache();
     }
 
-    public boolean isDirty() {
-        return dirty;
-    }
-
-    private class BackgroundSaver extends TimerTask {
-        @Override
-        public synchronized void run() {
-            if (isDirty()) {
-                BandePlugin.getFileManager().savePlayer(BandePlayer.this);
-                BandePlayer.this.invalidate();
-                setDirty(false);
-            }
-        }
+    @Override
+    public void reloadConfig() {
+        config.load();
     }
 
 }

@@ -25,15 +25,12 @@ public class Neutral {
                 if (other != null) {
                     other.removeAlliance(sender.getBande());
                     other.removeAllianceInvite(sender.getBande().getName());
-                    other.forceSave();
 
                     Message.sendReplaced(other.getMemberIterable(), "bande.neutral", null,
                             sender.getBase().getName(), sender.getBande().getName());
                 }
                 sender.getBande().removeAlliance(other);
                 sender.getBande().removeAllianceInvite(bandeName);
-
-                sender.getBande().forceSave();
             }
 
             Message.sendReplaced(sender.getBande().getMemberIterable(), "bande.neutral", null,
