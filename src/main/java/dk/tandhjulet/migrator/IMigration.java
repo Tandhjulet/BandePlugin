@@ -1,14 +1,18 @@
 package dk.tandhjulet.migrator;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import dk.tandhjulet.config.BandeConfig;
 import dk.tandhjulet.storage.FileManager;
+import dk.tandhjulet.utils.Logger;
 
 public interface IMigration {
     public default Map.Entry<List<File>, List<Field>> getMigrationData() {
@@ -18,27 +22,48 @@ public interface IMigration {
         return new AbstractMap.SimpleEntry<List<File>, List<Field>>(files, fields);
     }
 
-    public default void migrate(File file) {
-        BandeConfig config = new BandeConfig(file);
-        Object toExtract = FileManager.loadDeprecated(file);
+    public default void migrate(File file) throws IOException, ClassNotFoundException {
+        if (!file.getName().endsWith(".data"))
+            return;
 
+        File newFile = new File(file.getParentFile(), file.getName().replace(".data", ".yml"));
+        BandeConfig config = new BandeConfig(newFile);
+        config.load();
+
+        Object toExtract = FileManager.loadDeprecated(file);
         Map.Entry<List<File>, List<Field>> toMigrate = getMigrationData();
 
         toMigrate.getValue().forEach(field -> {
             try {
+                field.setAccessible(true);
+
                 config.setUnsafeProperty(field.getName(),
                         field.get(toExtract));
             } catch (IllegalArgumentException | IllegalAccessException e) {
+                Logger.severe("Lost data during migration... continuing.");
                 e.printStackTrace();
             }
         });
 
         config.save();
+        file.delete();
+    }
+
+    public default boolean shouldMigrate() {
+        AtomicBoolean shouldMigrate = new AtomicBoolean(false);
+        getFiles().forEach(file -> {
+            if (new File(file.getParentFile(), file.getName().replace(".yml", ".data")).exists()) {
+                shouldMigrate.set(true);
+            }
+        });
+
+        return shouldMigrate.get();
     }
 
     public default List<Field> getFields() {
         Class<?> clazz = getClazz();
-        List<Field> fields = Arrays.asList(clazz.getDeclaredFields());
+        List<Field> fields = new ArrayList<>(Arrays.asList(clazz.getDeclaredFields()));
+
         fields.removeIf(field -> !field.isAnnotationPresent(Migrate.class));
         return fields;
     }
@@ -46,4 +71,6 @@ public interface IMigration {
     public List<File> getFiles();
 
     public Class<?> getClazz();
+
+    public Class<?> getHolder();
 }

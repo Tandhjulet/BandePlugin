@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.AbstractMap.SimpleEntry;
 
@@ -30,15 +31,15 @@ public class Bande implements IConfig, Serializable {
     @Deprecated
     private static transient final long serialVersionUID = 1L;
 
-    private final BandeConfig config;
-    private BandeHolder holder;
+    private transient final BandeConfig config;
+    private transient BandeHolder holder;
 
     private transient boolean isDestroyed = false;
 
     public Bande(String name, UUID owner) {
-        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "bander");
         if (!folder.exists() && !folder.mkdirs()) {
-            throw new RuntimeException("Unable to create userdata folder!");
+            throw new RuntimeException("Unable to create bande folder!");
         }
 
         config = new BandeConfig(new File(folder, name + ".yml"));
@@ -53,6 +54,8 @@ public class Bande implements IConfig, Serializable {
             BandePlugin.getTop().setLevel(1, getName());
             addMember(BandeRank.EJER, owner);
         }
+
+        config.save();
 
         save();
     }
@@ -457,4 +460,13 @@ public class Bande implements IConfig, Serializable {
     @Deprecated
     @Migrate
     private BigDecimal balance;
+
+    @Deprecated
+    @SuppressWarnings("unused")
+    private class BackgroundSaver extends TimerTask {
+        @Override
+        public synchronized void run() {
+
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package dk.tandhjulet.gui;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -36,7 +37,9 @@ import dk.tandhjulet.utils.Utils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 
-public class GUIItem {
+public class GUIItem implements Serializable {
+    @Deprecated
+    private static transient final long serialVersionUID = 4L;
 
     public ItemStack item;
     transient GuiAction<InventoryClickEvent> consumer;

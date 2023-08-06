@@ -1,5 +1,6 @@
 package dk.tandhjulet.top;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.config.holder.TopHolder;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
+import dk.tandhjulet.utils.Logger;
 import dk.tandhjulet.utils.Utils;
 
 public class BandeTop implements IConfig, Serializable {
@@ -22,12 +24,18 @@ public class BandeTop implements IConfig, Serializable {
     private TopHolder holder;
 
     public BandeTop() {
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "data");
+        if (!folder.exists() && !folder.mkdirs()) {
+            throw new RuntimeException("Unable to create data folder!");
+        }
+
         config = new BandeConfig(FileManager.getTopFile());
         config.setSaveHook(() -> {
             config.setRootHolder(TopHolder.class, holder);
         });
 
         reloadConfig();
+        config.save();
     }
 
     @Deprecated
@@ -131,6 +139,13 @@ public class BandeTop implements IConfig, Serializable {
     @Override
     public void reloadConfig() {
         config.load();
+
+        try {
+            holder = config.getRootNode().get(TopHolder.class);
+        } catch (Throwable e) {
+            Logger.severe("Error while reading config: " + config.getFile().getName());
+            throw new RuntimeException(e);
+        }
     }
 
     @Deprecated

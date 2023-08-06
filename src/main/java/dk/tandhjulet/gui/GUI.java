@@ -29,6 +29,7 @@ import dk.tandhjulet.events.BandeGUIOpenEvent;
 import dk.tandhjulet.events.BandeGUIOutsideClickEvent;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
+import dk.tandhjulet.utils.Logger;
 import net.kyori.adventure.text.Component;
 
 public class GUI implements IConfig, Serializable {
@@ -41,6 +42,7 @@ public class GUI implements IConfig, Serializable {
     private transient GuiAction<InventoryCloseEvent> closeGuiAction;
     private transient GuiAction<InventoryOpenEvent> openGuiAction;
     private transient GuiAction<InventoryClickEvent> outsideClickAction;
+    private transient boolean isSynthetic = false;
 
     // special use case; used in member administration
     private UUID offender;
@@ -57,7 +59,17 @@ public class GUI implements IConfig, Serializable {
         return offender;
     }
 
+    public void makeSynthetic() {
+        this.isSynthetic = true;
+    }
+
     public GUI(String id, Integer rows) {
+        this(id, rows, false);
+    }
+
+    public GUI(String id, Integer rows, boolean isSynthetic) {
+        this.isSynthetic = isSynthetic;
+
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "guis");
         if (!folder.exists() && !folder.mkdirs()) {
             throw new RuntimeException("Unable to create gui folder!");
@@ -68,6 +80,8 @@ public class GUI implements IConfig, Serializable {
             config.setRootHolder(GUIHolder.class, holder);
         });
 
+        reloadConfig();
+
         if (holder.id() == null) {
             holder.id(id);
         }
@@ -75,6 +89,8 @@ public class GUI implements IConfig, Serializable {
             holder.rows(rows);
         }
 
+        if (!isSynthetic)
+            config.save();
         init();
     }
 
@@ -123,17 +139,20 @@ public class GUI implements IConfig, Serializable {
 
     public void setItem(int id, GUIItem item) {
         holder.contents().put(id, item);
-        config.save();
+        if (!isSynthetic)
+            config.save();
     }
 
     public void setItem(int id, GuiItem item) {
         holder.contents().put(id, new GUIItem(item.getItemStack(), null));
-        config.save();
+        if (!isSynthetic)
+            config.save();
     }
 
     public void setContents(HashMap<Integer, GUIItem> contents) {
         holder.contents(contents);
-        config.save();
+        if (!isSynthetic)
+            config.save();
     }
 
     public void open(Player openTo, OfflinePlayer data, final boolean interaction, final boolean handle) {
@@ -232,6 +251,12 @@ public class GUI implements IConfig, Serializable {
     @Override
     public void reloadConfig() {
         config.load();
+        try {
+            holder = config.getRootNode().get(GUIHolder.class);
+        } catch (Throwable e) {
+            Logger.severe("Error while reading config: " + config.getFile().getName());
+            throw new RuntimeException(e);
+        }
     }
 
     @Migrate

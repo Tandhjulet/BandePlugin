@@ -7,6 +7,7 @@ import java.util.List;
 import dk.tandhjulet.config.holder.TopHolder;
 import dk.tandhjulet.migrator.IMigration;
 import dk.tandhjulet.storage.FileManager;
+import dk.tandhjulet.top.BandeTop;
 
 public class TopMigrator implements IMigration {
 
@@ -17,6 +18,11 @@ public class TopMigrator implements IMigration {
 
     @Override
     public Class<?> getClazz() {
+        return BandeTop.class;
+    }
+
+    @Override
+    public Class<?> getHolder() {
         return TopHolder.class;
     }
 }

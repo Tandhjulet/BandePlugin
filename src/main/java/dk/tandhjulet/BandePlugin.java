@@ -29,6 +29,7 @@ import dk.tandhjulet.listeners.ChatListener;
 import dk.tandhjulet.listeners.DamageListener;
 import dk.tandhjulet.listeners.DeathListener;
 import dk.tandhjulet.listeners.JoinListener;
+import dk.tandhjulet.migrator.Migrator;
 import dk.tandhjulet.placeholders.Placeholders;
 import dk.tandhjulet.storage.Config;
 import dk.tandhjulet.storage.FileManager;
@@ -73,34 +74,25 @@ public class BandePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        plugin = this;
+
+        this.saveDefaultConfig();
+        config = new Config();
+
+        loadDeprecatedVariables();
+
+        Migrator.run();
+
         if (!setupEconomy()) {
             Logger.severe("Lukker pluginnet ned - kunne ikke finde et economy-plugin.");
             Logger.severe("Installer EssentialsX eller et lign. plugin, for at løse dette problem.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
-        if (setupChat()) {
-            Logger.severe("Lukker pluginnet ned - kunne ikke finde et chat-plugin.");
-            Logger.severe("Installer EssentialsXChat eller et lign. plugin, for at løse dette problem.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        if (setupPermissions()) {
-            Logger.severe("Lukker pluginnet ned - kunne ikke finde et permissions-plugin.");
-            Logger.severe("Installer LuckPerms, GroupManager eller et lign. plugin, for at løse dette problem.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        this.saveDefaultConfig();
-        plugin = this;
+        setupChat();
+        setupPermissions();
 
         // For backwards compatability
-        loadDeprecatedVariables();
-
-        config = new Config();
 
         final File messages = new File(this.getDataFolder(), "messages.yml");
         if (!messages.exists()) {
@@ -186,7 +178,8 @@ public class BandePlugin extends JavaPlugin {
 
     @SuppressWarnings("deprecation")
     public void loadDeprecatedVariables() {
-        houseHolder = (dk.tandhjulet.huse.HouseHolder) FileManager.loadDeprecated(FileManager.getHouseHolderFile());
+        if (FileManager.getHouseHolderFile().exists())
+            houseHolder = (dk.tandhjulet.huse.HouseHolder) FileManager.loadDeprecated(FileManager.getHouseHolderFile());
     }
 
     public static InventoryData getInventoryDataHolder() {
@@ -239,22 +232,14 @@ public class BandePlugin extends JavaPlugin {
         return econ != null;
     }
 
-    private boolean setupChat() {
+    private void setupChat() {
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-        if (rsp == null) {
-            return false;
-        }
         chat = rsp.getProvider();
-        return chat != null;
     }
 
-    private boolean setupPermissions() {
+    private void setupPermissions() {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        if (rsp == null) {
-            return false;
-        }
         perms = rsp.getProvider();
-        return perms != null;
     }
 
     public static Economy getEconomy() {

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import dk.tandhjulet.config.holder.InventoryDataHolder;
+import dk.tandhjulet.gui.InventoryData;
 import dk.tandhjulet.migrator.IMigration;
 import dk.tandhjulet.storage.FileManager;
 
@@ -17,7 +18,11 @@ public class InventoryDataMigrator implements IMigration {
 
     @Override
     public Class<?> getClazz() {
-        return InventoryDataHolder.class;
+        return InventoryData.class;
     }
 
+    @Override
+    public Class<?> getHolder() {
+        return InventoryDataHolder.class;
+    }
 }

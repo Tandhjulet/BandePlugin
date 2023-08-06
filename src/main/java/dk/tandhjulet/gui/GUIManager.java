@@ -28,15 +28,19 @@ public class GUIManager {
             guiFolder.mkdirs();
         }
 
+        boolean missingFile = false;
+
         for (String gui_name : BandePlugin.getInventoryDataHolder().getIds()) {
             File f = new File(BandePlugin.getPlugin().getDataFolder(), "guis" +
                     File.separator + gui_name + ".yml");
-            if (!f.exists()) {
-                Logger.info("Could not find gui " + gui_name + "! Creating an empty one...");
+            if (!f.exists() && !missingFile) {
+                missingFile = true;
             }
 
             addGui(gui_name, loadGUIFromFile(gui_name));
         }
+
+        Logger.warn("Kunne ikke finde en eller flere gui-filer. Opretter tomme filer...");
 
     }
 

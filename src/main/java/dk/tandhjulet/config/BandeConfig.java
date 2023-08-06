@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.loader.ParsingException;
@@ -27,7 +28,8 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import dk.tandhjulet.config.annotations.DeleteOnEmpty;
 import dk.tandhjulet.config.processors.DeleteOnEmptyProcessor;
 import dk.tandhjulet.config.serializers.BigDecimalSerializer;
-import dk.tandhjulet.config.serializers.GUIItemSerializer;
+import dk.tandhjulet.config.serializers.GUIItemTypeSerializer;
+import dk.tandhjulet.config.serializers.ItemStackTypeSerializer;
 import dk.tandhjulet.config.serializers.UUIDSerializer;
 import dk.tandhjulet.gui.GUIItem;
 import dk.tandhjulet.utils.Logger;
@@ -45,7 +47,8 @@ public class BandeConfig {
             .build();
     private static final TypeSerializerCollection SERIALIZERS = TypeSerializerCollection.defaults().childBuilder()
             .registerAnnotatedObjects(MAPPER_FACTORY)
-            .register(GUIItem.class, new GUIItemSerializer())
+            .register(ItemStack.class, new ItemStackTypeSerializer())
+            .register(GUIItem.class, new GUIItemTypeSerializer())
             .register(UUID.class, new UUIDSerializer())
             .register(BigDecimal.class, new BigDecimalSerializer())
             .build();

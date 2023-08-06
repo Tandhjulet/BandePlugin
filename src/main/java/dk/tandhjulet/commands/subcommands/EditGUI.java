@@ -27,7 +27,7 @@ public class EditGUI {
 
         HashMap<String, GUI> guis = (HashMap<String, GUI>) BandePlugin.getGuiManager().getGUIs().clone();
 
-        GUI gui = new GUI("Edit GUIs", 6);
+        GUI gui = new GUI("Edit GUIs", 6, true);
 
         AtomicInteger index = new AtomicInteger(-1);
         guis.forEach((name, GUI) -> {

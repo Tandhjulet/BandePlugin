@@ -18,7 +18,9 @@ public class Config implements IConfig {
         if (!file.exists())
             BandePlugin.getPlugin().saveResource("config.yml", false);
         config = new BandeConfig(file);
+
         reloadConfig();
+        config.save();
     }
 
     private List<String> houses;

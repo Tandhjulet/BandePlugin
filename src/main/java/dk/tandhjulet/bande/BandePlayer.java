@@ -16,8 +16,10 @@ import dk.tandhjulet.enums.BandeRank;
 import dk.tandhjulet.enums.ChatStatus;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
+import dk.tandhjulet.utils.Logger;
 
 public class BandePlayer implements IConfig, Serializable {
+    @Deprecated
     private static transient final long serialVersionUID = 2L;
 
     private BandeConfig config;
@@ -30,6 +32,11 @@ public class BandePlayer implements IConfig, Serializable {
     private transient String previousGui;
 
     public BandePlayer(UUID base) throws Exception {
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        if (!folder.exists() && !folder.mkdirs()) {
+            throw new RuntimeException("Unable to create userdata folder!");
+        }
+
         File userFile = FileManager.getUserFile(base);
         if (userFile.exists()) {
 
@@ -40,6 +47,7 @@ public class BandePlayer implements IConfig, Serializable {
 
             this.cachedPlayer = Bukkit.getServer().getPlayer(base);
             reloadConfig();
+            config.save();
         } else {
             throw new RuntimeException("Could not create Bande Player File for non-joined player!");
         }
@@ -58,6 +66,7 @@ public class BandePlayer implements IConfig, Serializable {
 
         this.cachedPlayer = base;
         reloadConfig();
+        config.save();
     }
 
     public void destroy() {
@@ -170,6 +179,12 @@ public class BandePlayer implements IConfig, Serializable {
     @Override
     public void reloadConfig() {
         config.load();
+        try {
+            holder = config.getRootNode().get(BandePlayerHolder.class);
+        } catch (Throwable e) {
+            Logger.severe("Error while reading config: " + config.getFile().getName());
+            throw new RuntimeException(e);
+        }
     }
 
     @Migrate

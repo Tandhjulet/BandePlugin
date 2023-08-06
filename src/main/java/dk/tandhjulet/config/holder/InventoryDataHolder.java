@@ -2,6 +2,7 @@ package dk.tandhjulet.config.holder;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -10,7 +11,7 @@ import dk.tandhjulet.utils.Utils;
 
 @ConfigSerializable
 public class InventoryDataHolder {
-    HashMap<String, String> idToName = new HashMap<String, String>() {
+    private Map<String, String> idToName = new HashMap<String, String>() {
         {
             put("hjem_ingen_bande", Utils.getColored("&d&lBANDE &8• &f&lSTART"));
             put("hjem_med_bande", Utils.getColored("&d&lBANDE &8• &f&lSTART"));
@@ -31,7 +32,7 @@ public class InventoryDataHolder {
         }
     };
 
-    HashMap<String, Integer> idToSize = new HashMap<String, Integer>() {
+    private Map<String, Integer> idToSize = new HashMap<String, Integer>() {
         {
             put("bande_huse", 5);
             put("bande_omraader", 5);
