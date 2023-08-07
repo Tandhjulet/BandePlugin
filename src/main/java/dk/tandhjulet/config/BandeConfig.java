@@ -1,6 +1,7 @@
 package dk.tandhjulet.config;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -30,7 +30,6 @@ import dk.tandhjulet.config.processors.DeleteOnEmptyProcessor;
 import dk.tandhjulet.config.serializers.BigDecimalSerializer;
 import dk.tandhjulet.config.serializers.GUIItemTypeSerializer;
 import dk.tandhjulet.config.serializers.ItemStackTypeSerializer;
-import dk.tandhjulet.config.serializers.UUIDSerializer;
 import dk.tandhjulet.gui.GUIItem;
 import dk.tandhjulet.utils.Logger;
 
@@ -49,7 +48,6 @@ public class BandeConfig {
             .registerAnnotatedObjects(MAPPER_FACTORY)
             .register(ItemStack.class, new ItemStackTypeSerializer())
             .register(GUIItem.class, new GUIItemTypeSerializer())
-            .register(UUID.class, new UUIDSerializer())
             .register(BigDecimal.class, new BigDecimalSerializer())
             .build();
     File configFile;
@@ -214,6 +212,14 @@ public class BandeConfig {
     private void setInternal(final String path, final Object value) {
         try {
             toSplitRoot(path, configurationNode).set(value);
+        } catch (SerializationException e) {
+            Logger.severe(e.getMessage());
+        }
+    }
+
+    public <K, V> void setMap(final String path, final Map<K, V> value, final Type type) {
+        try {
+            toSplitRoot(path, configurationNode).set(type, value);
         } catch (SerializationException e) {
             Logger.severe(e.getMessage());
         }

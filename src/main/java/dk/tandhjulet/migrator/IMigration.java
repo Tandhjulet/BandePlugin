@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.google.gson.reflect.TypeToken;
+
 import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.gui.GUIItem;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
 
@@ -20,6 +23,45 @@ public interface IMigration {
         List<File> files = getFiles();
 
         return new AbstractMap.SimpleEntry<List<File>, List<Field>>(files, fields);
+    }
+
+    @SuppressWarnings("unchecked")
+    public default void exchangeFields(BandeConfig config, Object extractFrom,
+            Map.Entry<List<File>, List<Field>> toMigrate) {
+        if (extractFrom == null) {
+            return;
+        }
+
+        toMigrate.getValue().forEach(field -> {
+            try {
+                field.setAccessible(true);
+
+                Object extractedValue = field.get(extractFrom);
+                Logger.info(field.getType().toString());
+
+                if (extractedValue instanceof Map<?, ?>) {
+                    Map<?, ?> map = (Map<?, ?>) extractedValue;
+                    if (!map.isEmpty()) {
+                        Map.Entry<?, ?> typesToExtract = map.entrySet().iterator().next();
+                        if (typesToExtract.getKey() instanceof Integer
+                                && typesToExtract.getValue() instanceof GUIItem) {
+
+                            config.setMap(field.getName(), (Map<Integer, GUIItem>) map,
+                                    new TypeToken<Map<Integer, GUIItem>>() {
+                                    }.getType());
+
+                        } else {
+                            config.setUnsafeProperty(field.getName(), extractedValue);
+                        }
+                    }
+                } else {
+                    config.setUnsafeProperty(field.getName(), extractedValue);
+                }
+            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException e) {
+                Logger.severe("Lost data during migration... continuing.");
+                e.printStackTrace();
+            }
+        });
     }
 
     public default void migrate(File file) throws IOException, ClassNotFoundException {
@@ -33,17 +75,7 @@ public interface IMigration {
         Object toExtract = FileManager.loadDeprecated(file);
         Map.Entry<List<File>, List<Field>> toMigrate = getMigrationData();
 
-        toMigrate.getValue().forEach(field -> {
-            try {
-                field.setAccessible(true);
-
-                config.setUnsafeProperty(field.getName(),
-                        field.get(toExtract));
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                Logger.severe("Lost data during migration... continuing.");
-                e.printStackTrace();
-            }
-        });
+        exchangeFields(config, toExtract, toMigrate);
 
         config.save();
         file.delete();
