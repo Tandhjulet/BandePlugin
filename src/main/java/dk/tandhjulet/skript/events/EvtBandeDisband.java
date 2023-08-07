@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandePreDisbandEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeDisband extends SkriptEvent {
 
     static {

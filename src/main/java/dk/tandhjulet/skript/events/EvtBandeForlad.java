@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeForladEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeForlad extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Leave", EvtBandeForlad.class, BandeForladEvent.class, "[bande ]leave");

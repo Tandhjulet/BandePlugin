@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeNewAccessEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeAccess extends SkriptEvent {
     static {
         Skript.registerEvent("Rival Event", EvtBandeAccess.class, BandeNewAccessEvent.class, "[bande ]access[ update]");

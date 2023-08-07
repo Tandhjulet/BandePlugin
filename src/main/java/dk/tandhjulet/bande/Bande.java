@@ -26,6 +26,7 @@ import dk.tandhjulet.events.BandeNewAccessEvent;
 import dk.tandhjulet.hooks.WorldGuardHook;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.Message;
+import dk.tandhjulet.utils.Logger;
 
 public class Bande implements IConfig, Serializable {
     @Deprecated
@@ -53,6 +54,8 @@ public class Bande implements IConfig, Serializable {
             holder.name(name);
             BandePlugin.getTop().setLevel(1, getName());
             addMember(BandeRank.EJER, owner);
+
+            BandePlugin.getAPI().getPlayer(owner).setBande(name, BandeRank.EJER);
         }
 
         config.save();
@@ -399,6 +402,12 @@ public class Bande implements IConfig, Serializable {
     @Override
     public void reloadConfig() {
         config.load();
+        try {
+            holder = config.getRootNode().get(BandeHolder.class);
+        } catch (Throwable e) {
+            Logger.severe("Error while reading config: " + config.getFile().getName());
+            throw new RuntimeException(e);
+        }
     }
 
     @Deprecated

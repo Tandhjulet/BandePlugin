@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeDemoteEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeDemote extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Demote", EvtBandeDemote.class, BandeDemoteEvent.class, "[bande ]demote");

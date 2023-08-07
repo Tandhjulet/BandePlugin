@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeRivalEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeRival extends SkriptEvent {
 
     static {

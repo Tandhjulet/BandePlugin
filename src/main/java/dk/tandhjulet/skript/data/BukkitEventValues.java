@@ -22,7 +22,6 @@ import dk.tandhjulet.events.BandePreDisbandEvent;
 import dk.tandhjulet.events.BandePromoteEvent;
 import dk.tandhjulet.events.BandeRivalEvent;
 
-@SuppressWarnings("all")
 public class BukkitEventValues {
     static {
         EventValues.registerEventValue(BandeCreateEvent.class, Bande.class, new Getter<Bande, BandeCreateEvent>() {

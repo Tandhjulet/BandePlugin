@@ -11,7 +11,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.gui.GUI;
 
-@SuppressWarnings("all")
 public class EffRerenderGUI extends Effect {
     static {
         Skript.registerEffect(EffRerenderGUI.class,

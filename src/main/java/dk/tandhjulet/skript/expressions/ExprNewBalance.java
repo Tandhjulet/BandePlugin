@@ -16,7 +16,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.events.BandeBankUpdateEvent;
 import dk.tandhjulet.events.BandeDepositEvent;
 
-@SuppressWarnings("all")
 public class ExprNewBalance extends SimpleExpression<Number> {
     static {
         Skript.registerExpression(ExprNewBalance.class, Number.class, ExpressionType.SIMPLE, "new balance");

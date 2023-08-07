@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeCreateEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeCreate extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Create", EvtBandeCreate.class, BandeCreateEvent.class, "[bande ]create");

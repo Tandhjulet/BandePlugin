@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeJoinEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeJoin extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Join", EvtBandeJoin.class, BandeJoinEvent.class, "bande join");

@@ -11,7 +11,6 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import dk.tandhjulet.bande.Bande;
 
-@SuppressWarnings("all")
 public class ExprBandeLevel extends SimpleExpression<Number> {
 
     static {

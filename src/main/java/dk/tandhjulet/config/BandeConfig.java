@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -217,9 +218,15 @@ public class BandeConfig {
         }
     }
 
-    public <K, V> void setMap(final String path, final Map<K, V> value, final Type type) {
+    public <K, V> void setMap(final String path, final HashMap<K, V> value, final Type type) {
         try {
-            toSplitRoot(path, configurationNode).set(type, value);
+            CommentedConfigurationNode configNode = toSplitRoot(path, configurationNode);
+
+            Logger.info(configNode.toString());
+            Logger.info(value.toString());
+            Logger.info(type.getTypeName());
+
+            configNode.set(type, value);
         } catch (SerializationException e) {
             Logger.severe(e.getMessage());
         }

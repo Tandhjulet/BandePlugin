@@ -1,6 +1,7 @@
 package dk.tandhjulet.migrator.migrators;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import dk.tandhjulet.storage.FileManager;
 public class BandeMigrator implements IMigration {
 
     public List<File> getFiles() {
-        return Arrays.asList(FileManager.getBandeFile("").getParentFile().listFiles());
+        File[] files = FileManager.getBandeFile("").getParentFile().listFiles();
+        if (files == null || files.length == 0)
+            return new ArrayList<>();
+        return Arrays.asList(files);
     }
 
     @Override

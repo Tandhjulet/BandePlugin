@@ -14,7 +14,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 
-@SuppressWarnings("all")
 public class ExprBande extends SimpleExpression<Bande> {
     static {
         Skript.registerExpression(ExprBande.class, Bande.class, ExpressionType.PROPERTY,

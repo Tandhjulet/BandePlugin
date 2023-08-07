@@ -157,7 +157,7 @@
                 <targetPath>.</targetPath>
                 <includes>
                     <include>plugin.yml</include>
-                    <include>guis.zip</include>
+                    <include>guis/*.yml</include>
                     <include>levels/*</include>
                     <include>config.yml</include>
                     <include>messages.yml</include>

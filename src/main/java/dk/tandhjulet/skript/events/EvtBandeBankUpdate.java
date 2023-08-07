@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeBankUpdateEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeBankUpdate extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Bank Update", EvtBandeBankUpdate.class, BandeBankUpdateEvent.class,

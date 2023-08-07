@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeKickEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeKick extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Kick", EvtBandeKick.class, BandeKickEvent.class, "bande kick");

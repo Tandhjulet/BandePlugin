@@ -33,14 +33,16 @@ public class GUIManager {
         for (String gui_name : BandePlugin.getInventoryDataHolder().getIds()) {
             File f = new File(BandePlugin.getPlugin().getDataFolder(), "guis" +
                     File.separator + gui_name + ".yml");
-            if (!f.exists() && !missingFile) {
+            if (!f.exists()) {
+                BandePlugin.getPlugin().saveResource("guis" + File.separator + gui_name + ".yml", false);
                 missingFile = true;
             }
 
             addGui(gui_name, loadGUIFromFile(gui_name));
         }
-
-        Logger.warn("Kunne ikke finde en eller flere gui-filer. Opretter tomme filer...");
+        if (missingFile) {
+            Logger.warn("Kunne ikke finde en eller flere gui-filer. Indsatte standard-fil(er) som erstatning.");
+        }
 
     }
 

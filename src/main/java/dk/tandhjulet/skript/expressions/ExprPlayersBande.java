@@ -15,7 +15,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 
-@SuppressWarnings("all")
 public class ExprPlayersBande extends SimpleExpression<Bande> {
 
     static {

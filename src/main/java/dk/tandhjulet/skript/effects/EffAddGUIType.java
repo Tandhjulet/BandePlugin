@@ -12,7 +12,6 @@ import ch.njol.skript.lang.function.Functions;
 import ch.njol.util.Kleenean;
 import dk.tandhjulet.BandePlugin;
 
-@SuppressWarnings("all")
 public class EffAddGUIType extends Effect {
     static {
         Skript.registerEffect(EffAddGUIType.class, "(add|register) type %string% (with|by) [function ]%string%");

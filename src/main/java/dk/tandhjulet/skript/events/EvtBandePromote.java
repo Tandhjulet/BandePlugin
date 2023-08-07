@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandePromoteEvent;
 
-@SuppressWarnings("all")
 public class EvtBandePromote extends SkriptEvent {
 
     static {

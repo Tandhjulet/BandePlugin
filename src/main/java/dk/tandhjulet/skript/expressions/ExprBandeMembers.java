@@ -19,7 +19,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.enums.BandeRank;
 
-@SuppressWarnings("all")
 public class ExprBandeMembers extends SimpleExpression<UUID> {
 
     static {

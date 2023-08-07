@@ -6,14 +6,17 @@ import java.lang.reflect.Field;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.google.gson.reflect.TypeToken;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.config.holder.GUIHolder;
 import dk.tandhjulet.gui.GUIItem;
+import dk.tandhjulet.migrator.migrators.GUIMigrator;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
 
@@ -37,18 +40,23 @@ public interface IMigration {
                 field.setAccessible(true);
 
                 Object extractedValue = field.get(extractFrom);
-                Logger.info(field.getType().toString());
 
                 if (extractedValue instanceof Map<?, ?>) {
-                    Map<?, ?> map = (Map<?, ?>) extractedValue;
+                    HashMap<?, ?> map = (HashMap<?, ?>) extractedValue;
                     if (!map.isEmpty()) {
                         Map.Entry<?, ?> typesToExtract = map.entrySet().iterator().next();
                         if (typesToExtract.getKey() instanceof Integer
-                                && typesToExtract.getValue() instanceof GUIItem) {
+                                && typesToExtract.getValue() instanceof GUIItem
+                                && this instanceof GUIMigrator) {
 
-                            config.setMap(field.getName(), (Map<Integer, GUIItem>) map,
-                                    new TypeToken<Map<Integer, GUIItem>>() {
-                                    }.getType());
+                            // horrible code, but it works! :D
+
+                            GUIHolder holder = config.getRootNode().get(GUIHolder.class);
+                            config.setSaveHook(() -> {
+                                config.setRootHolder(GUIHolder.class, holder);
+                            });
+
+                            holder.contents((HashMap<Integer, GUIItem>) map);
 
                         } else {
                             config.setUnsafeProperty(field.getName(), extractedValue);
@@ -57,7 +65,8 @@ public interface IMigration {
                 } else {
                     config.setUnsafeProperty(field.getName(), extractedValue);
                 }
-            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException e) {
+            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException
+                    | SerializationException e) {
                 Logger.severe("Lost data during migration... continuing.");
                 e.printStackTrace();
             }
@@ -83,8 +92,14 @@ public interface IMigration {
 
     public default boolean shouldMigrate() {
         AtomicBoolean shouldMigrate = new AtomicBoolean(false);
-        getFiles().forEach(file -> {
-            if (new File(file.getParentFile(), file.getName().replace(".yml", ".data")).exists()) {
+
+        List<File> files = getFiles();
+        if (files.isEmpty())
+            return false;
+
+        files.forEach(file -> {
+            File f = new File(file.getParentFile(), file.getName().replace(".yml", ".data"));
+            if (f.exists()) {
                 shouldMigrate.set(true);
             }
         });

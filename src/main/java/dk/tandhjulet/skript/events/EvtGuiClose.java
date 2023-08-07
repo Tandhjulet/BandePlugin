@@ -8,10 +8,7 @@ import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeGUICloseEvent;
-import dk.tandhjulet.events.BandeGUIOpenEvent;
-import dk.tandhjulet.events.BandePromoteEvent;
 
-@SuppressWarnings("all")
 public class EvtGuiClose extends SkriptEvent {
 
     static {

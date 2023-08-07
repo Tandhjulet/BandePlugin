@@ -8,9 +8,7 @@ import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeGUIOpenEvent;
-import dk.tandhjulet.events.BandePromoteEvent;
 
-@SuppressWarnings("all")
 public class EvtGuiOpen extends SkriptEvent {
 
     static {

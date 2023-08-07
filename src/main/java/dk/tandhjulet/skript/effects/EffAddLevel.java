@@ -1,6 +1,5 @@
 package dk.tandhjulet.skript.effects;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,9 +9,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 import dk.tandhjulet.bande.Bande;
-import dk.tandhjulet.bande.BandePlayer;
 
-@SuppressWarnings("all")
 public class EffAddLevel extends Effect {
     static {
         Skript.registerEffect(EffInvitePlayer.class,

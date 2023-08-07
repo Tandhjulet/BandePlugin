@@ -8,10 +8,8 @@ import org.jetbrains.annotations.Nullable;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
-import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 
-@SuppressWarnings("all")
 public class ExprBandeBalance extends SimplePropertyExpression<Bande, Number> {
 
     static {

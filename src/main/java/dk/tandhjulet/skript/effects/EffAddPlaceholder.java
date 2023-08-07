@@ -13,7 +13,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.placeholders.BandePlaceholders;
 
-@SuppressWarnings("all")
 public class EffAddPlaceholder extends Effect {
     static {
         Skript.registerEffect(EffAddPlaceholder.class,

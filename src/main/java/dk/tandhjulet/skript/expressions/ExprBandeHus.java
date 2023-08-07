@@ -8,7 +8,6 @@ import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
 import dk.tandhjulet.bande.Bande;
 
-@SuppressWarnings("all")
 public class ExprBandeHus extends SimplePropertyExpression<Bande, String> {
 
     static {

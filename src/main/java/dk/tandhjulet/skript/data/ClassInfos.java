@@ -25,7 +25,6 @@ import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
 import dk.tandhjulet.enums.BandeRank;
 
-@SuppressWarnings("all")
 public class ClassInfos {
 
     public static final Pattern UUID_PATTERN = Pattern.compile("(?i)[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}");

@@ -12,7 +12,6 @@ import ch.njol.util.Kleenean;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
 
-@SuppressWarnings("all")
 public class EffInvitePlayer extends Effect {
     static {
         Skript.registerEffect(EffInvitePlayer.class,

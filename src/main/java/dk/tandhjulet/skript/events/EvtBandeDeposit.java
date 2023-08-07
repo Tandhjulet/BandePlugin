@@ -9,7 +9,6 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import dk.tandhjulet.events.BandeDepositEvent;
 
-@SuppressWarnings("all")
 public class EvtBandeDeposit extends SkriptEvent {
     static {
         Skript.registerEvent("Bande Deposit", EvtBandeDeposit.class, BandeDepositEvent.class, "[bande ]deposit");
