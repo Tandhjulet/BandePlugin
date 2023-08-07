@@ -18,8 +18,8 @@ import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
 import dk.tandhjulet.gui.GUI;
-import dk.tandhjulet.gui.InventoryData;
-import dk.tandhjulet.top.BandeTop;
+import dk.tandhjulet.gui.InvDataHolder;
+import dk.tandhjulet.top.BandeTopHolder;
 
 public class FileManager {
     private static String BANDE_PATH = "bander";
@@ -284,10 +284,10 @@ public class FileManager {
     }
 
     @Deprecated
-    public BandeTop loadTop() {
+    public BandeTopHolder loadTop() {
 
         if (!topExists()) {
-            BandeTop top = new BandeTop();
+            BandeTopHolder top = new BandeTopHolder();
 
             saveTop(top);
             return top;
@@ -298,7 +298,7 @@ public class FileManager {
                     new GZIPInputStream(
                             new FileInputStream(
                                     fileBase + File.separator + BANDE_TOP_PATH + File.separator + "top.data")));
-            BandeTop data = (BandeTop) in.readObject();
+            BandeTopHolder data = (BandeTopHolder) in.readObject();
             in.close();
             return data;
         } catch (ClassNotFoundException | IOException e) {
@@ -308,7 +308,7 @@ public class FileManager {
     }
 
     @Deprecated
-    public boolean saveTop(BandeTop top) {
+    public boolean saveTop(BandeTopHolder top) {
         try {
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(
                     new GZIPOutputStream(
@@ -367,10 +367,10 @@ public class FileManager {
     }
 
     @Deprecated
-    public InventoryData loadInvDataHolder() {
+    public InvDataHolder loadInvDataHolder() {
 
         if (!invDataHolderExists()) {
-            InventoryData holder = new InventoryData();
+            InvDataHolder holder = new InvDataHolder();
 
             saveInvDataHolder(holder);
             return holder;
@@ -382,7 +382,7 @@ public class FileManager {
                             new FileInputStream(
                                     fileBase + File.separator + BANDE_TOP_PATH + File.separator
                                             + "inventorydata.data")));
-            InventoryData data = (InventoryData) in.readObject();
+            InvDataHolder data = (InvDataHolder) in.readObject();
             in.close();
             return data;
         } catch (ClassNotFoundException | IOException e) {
@@ -392,7 +392,7 @@ public class FileManager {
     }
 
     @Deprecated
-    public boolean saveInvDataHolder(InventoryData holder) {
+    public boolean saveInvDataHolder(InvDataHolder holder) {
         try {
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(
                     new GZIPOutputStream(
@@ -462,5 +462,15 @@ public class FileManager {
 
     public static File getInventoryDataFile() {
         return new File(fileBase + File.separator + BANDE_TOP_PATH + File.separator + "inventorydata.yml");
+    }
+
+    @Deprecated
+    public static File getDeprecatedInventoryDataFile() {
+        return new File(fileBase + File.separator + BANDE_TOP_PATH + File.separator + "inventorydata.data");
+    }
+
+    @Deprecated
+    public static File getDeprecatedTopFile() {
+        return new File(fileBase + File.separator + BANDE_TOP_PATH + File.separator + "top.data");
     }
 }

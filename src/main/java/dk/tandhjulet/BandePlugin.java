@@ -21,7 +21,7 @@ import dk.tandhjulet.commands.CommandBandeAdmin;
 import dk.tandhjulet.commands.CommandItemBuilder;
 import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.gui.GUIManager;
-import dk.tandhjulet.gui.InventoryData;
+import dk.tandhjulet.gui.InvDataHolder;
 import dk.tandhjulet.gui.TypeManager;
 import dk.tandhjulet.huse.HouseManager;
 import dk.tandhjulet.level.LevelManager;
@@ -34,7 +34,7 @@ import dk.tandhjulet.placeholders.Placeholders;
 import dk.tandhjulet.storage.Config;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.storage.Message;
-import dk.tandhjulet.top.BandeTop;
+import dk.tandhjulet.top.BandeTopHolder;
 import dk.tandhjulet.update.UpdateChecker;
 import dk.tandhjulet.utils.Logger;
 import net.milkbowl.vault.chat.Chat;
@@ -66,9 +66,9 @@ public class BandePlugin extends JavaPlugin {
 
     private static boolean chatEnabled = false;
 
-    private static InventoryData inventoryDataHolder;
+    private static InvDataHolder inventoryDataHolder;
 
-    private static BandeTop top;
+    private static BandeTopHolder top;
 
     public static boolean isPAPIEnabled;
 
@@ -114,13 +114,13 @@ public class BandePlugin extends JavaPlugin {
         new HeadDataBaseAPI();
         NBTAPI.init();
 
-        inventoryDataHolder = new InventoryData();
+        inventoryDataHolder = new InvDataHolder();
 
         typeManager = new TypeManager();
         guiManager = new GUIManager();
         guiManager.reload();
 
-        top = new BandeTop();
+        top = new BandeTopHolder();
         levelManager = new LevelManager();
 
         configList.add(config);
@@ -182,7 +182,7 @@ public class BandePlugin extends JavaPlugin {
             houseHolder = (dk.tandhjulet.huse.HouseHolder) FileManager.loadDeprecated(FileManager.getHouseHolderFile());
     }
 
-    public static InventoryData getInventoryDataHolder() {
+    public static InvDataHolder getInventoryDataHolder() {
         return inventoryDataHolder;
     }
 
@@ -254,7 +254,7 @@ public class BandePlugin extends JavaPlugin {
         return chat;
     }
 
-    public static BandeTop getTop() {
+    public static BandeTopHolder getTop() {
         return top;
     }
 

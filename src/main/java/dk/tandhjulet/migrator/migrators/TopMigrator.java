@@ -4,25 +4,20 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-import dk.tandhjulet.config.holder.TopHolder;
 import dk.tandhjulet.migrator.IMigration;
 import dk.tandhjulet.storage.FileManager;
-import dk.tandhjulet.top.BandeTop;
+import dk.tandhjulet.top.BandeTopHolder;
 
 public class TopMigrator implements IMigration {
 
     @Override
+    @SuppressWarnings("deprecation")
     public List<File> getFiles() {
-        return Collections.singletonList(FileManager.getTopFile());
+        return Collections.singletonList(FileManager.getDeprecatedTopFile());
     }
 
     @Override
     public Class<?> getClazz() {
-        return BandeTop.class;
-    }
-
-    @Override
-    public Class<?> getHolder() {
-        return TopHolder.class;
+        return BandeTopHolder.class;
     }
 }

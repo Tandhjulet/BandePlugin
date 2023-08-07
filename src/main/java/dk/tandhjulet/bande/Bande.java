@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 import java.util.AbstractMap.SimpleEntry;
@@ -38,6 +39,13 @@ public class Bande implements IConfig, Serializable {
     private transient boolean isDestroyed = false;
 
     public Bande(String name, UUID owner) {
+        // Need to be included or else it wont migrate/serialize.
+        new HashMap<String, String>() {
+            {
+                put(null, null);
+            }
+        };
+
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "bander");
         if (!folder.exists() && !folder.mkdirs()) {
             throw new RuntimeException("Unable to create bande folder!");
@@ -477,5 +485,27 @@ public class Bande implements IConfig, Serializable {
         public synchronized void run() {
 
         }
+    }
+
+    @Deprecated
+    public Timer getTimer() {
+        return null;
+    }
+
+    @Deprecated
+    public void init() {
+    }
+
+    @Deprecated
+    public void forceSave() {
+    }
+
+    @Deprecated
+    public void setDirty() {
+    }
+
+    @Deprecated
+    public boolean isDirty() {
+        return false;
     }
 }

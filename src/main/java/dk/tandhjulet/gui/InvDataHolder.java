@@ -14,13 +14,25 @@ import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
 
-public class InventoryData implements IConfig, Serializable {
+public class InvDataHolder implements IConfig, Serializable {
+    @Deprecated
     private static transient final long serialVersionUID = 9L;
 
     private InventoryDataHolder holder;
     private BandeConfig config;
 
-    public InventoryData() {
+    public InvDataHolder() {
+        new HashMap<Object, Object>() {
+            {
+                put(null, null);
+            }
+        };
+        new HashMap<Object, Object>() {
+            {
+                put(null, null);
+            }
+        };
+
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "data");
         if (!folder.exists() && !folder.mkdirs()) {
             throw new RuntimeException("Unable to create data folder!");

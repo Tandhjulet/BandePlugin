@@ -7,15 +7,21 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import dk.tandhjulet.config.BandeConfig;
+import dk.tandhjulet.config.holder.BandeHolder;
 import dk.tandhjulet.config.holder.GUIHolder;
+import dk.tandhjulet.enums.BandeRank;
 import dk.tandhjulet.gui.GUIItem;
+import dk.tandhjulet.migrator.migrators.BandeMigrator;
 import dk.tandhjulet.migrator.migrators.GUIMigrator;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
@@ -41,6 +47,8 @@ public interface IMigration {
 
                 Object extractedValue = field.get(extractFrom);
 
+                // horrible code, but it works! :D
+
                 if (extractedValue instanceof Map<?, ?>) {
                     HashMap<?, ?> map = (HashMap<?, ?>) extractedValue;
                     if (!map.isEmpty()) {
@@ -48,23 +56,40 @@ public interface IMigration {
                         if (typesToExtract.getKey() instanceof Integer
                                 && typesToExtract.getValue() instanceof GUIItem
                                 && this instanceof GUIMigrator) {
-
-                            // horrible code, but it works! :D
-
                             GUIHolder holder = config.getRootNode().get(GUIHolder.class);
                             config.setSaveHook(() -> {
                                 config.setRootHolder(GUIHolder.class, holder);
                             });
 
                             holder.contents((HashMap<Integer, GUIItem>) map);
+                            return;
+                        } else if (typesToExtract.getKey() instanceof BandeRank
+                                && typesToExtract.getValue() instanceof HashSet
+                                && this instanceof BandeMigrator) {
+                            BandeHolder holder = config.getRootNode().get(BandeHolder.class);
+                            config.setSaveHook(() -> {
+                                config.setRootHolder(BandeHolder.class, holder);
+                            });
 
-                        } else {
-                            config.setUnsafeProperty(field.getName(), extractedValue);
+                            holder.members((HashMap<BandeRank, HashSet<UUID>>) map);
+                            return;
                         }
                     }
-                } else {
-                    config.setUnsafeProperty(field.getName(), extractedValue);
+                } else if (extractedValue instanceof Set<?>) {
+                    Set<?> set = (Set<?>) extractedValue;
+                    if (!set.isEmpty()) {
+                        if (set.iterator().next() instanceof UUID) {
+                            BandeHolder holder = config.getRootNode().get(BandeHolder.class);
+                            config.setSaveHook(() -> {
+                                config.setRootHolder(BandeHolder.class, holder);
+                            });
+
+                            holder.invitations((HashSet<UUID>) set);
+                            return;
+                        }
+                    }
                 }
+                config.setUnsafeProperty(field.getName(), extractedValue);
             } catch (IllegalArgumentException | IllegalAccessException | NullPointerException
                     | SerializationException e) {
                 Logger.severe("Lost data during migration... continuing.");
@@ -118,6 +143,4 @@ public interface IMigration {
     public List<File> getFiles();
 
     public Class<?> getClazz();
-
-    public Class<?> getHolder();
 }

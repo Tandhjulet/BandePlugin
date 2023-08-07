@@ -39,9 +39,4 @@ public class HouseMigrator implements IMigration {
 
         file.delete();
     }
-
-    @Override
-    public Class<?> getHolder() {
-        return null;
-    }
 }

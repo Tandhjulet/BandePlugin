@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import dk.tandhjulet.config.holder.GUIHolder;
 import dk.tandhjulet.gui.GUI;
 import dk.tandhjulet.migrator.IMigration;
 import dk.tandhjulet.storage.FileManager;
@@ -23,10 +22,5 @@ public class GUIMigrator implements IMigration {
     @Override
     public Class<?> getClazz() {
         return GUI.class;
-    }
-
-    @Override
-    public Class<?> getHolder() {
-        return GUIHolder.class;
     }
 }

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import dk.tandhjulet.bande.Bande;
-import dk.tandhjulet.config.holder.BandeHolder;
 import dk.tandhjulet.migrator.IMigration;
 import dk.tandhjulet.storage.FileManager;
 
@@ -22,11 +21,6 @@ public class BandeMigrator implements IMigration {
     @Override
     public Class<?> getClazz() {
         return Bande.class;
-    }
-
-    @Override
-    public Class<?> getHolder() {
-        return BandeHolder.class;
     }
 
 }

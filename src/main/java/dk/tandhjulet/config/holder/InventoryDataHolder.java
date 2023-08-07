@@ -58,6 +58,14 @@ public class InventoryDataHolder {
             idToName.put(id, Utils.getColored(name));
     }
 
+    public void setSizes(HashMap<String, Integer> map) {
+        this.idToSize = map;
+    }
+
+    public void setNames(HashMap<String, String> map) {
+        this.idToName = map;
+    }
+
     public Integer getSize(String id) {
         return idToSize.getOrDefault(id, 6);
     }

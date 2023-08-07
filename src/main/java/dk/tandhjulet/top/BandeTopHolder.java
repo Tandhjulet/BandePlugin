@@ -16,14 +16,14 @@ import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
 import dk.tandhjulet.utils.Utils;
 
-public class BandeTop implements IConfig, Serializable {
+public class BandeTopHolder implements IConfig, Serializable {
     @Deprecated
     private static transient final long serialVersionUID = 6L;
 
     private BandeConfig config;
     private TopHolder holder;
 
-    public BandeTop() {
+    public BandeTopHolder() {
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "data");
         if (!folder.exists() && !folder.mkdirs()) {
             throw new RuntimeException("Unable to create data folder!");
