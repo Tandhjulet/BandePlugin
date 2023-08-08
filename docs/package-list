@@ -4,6 +4,11 @@ dk.tandhjulet.api.nbt
 dk.tandhjulet.bande
 dk.tandhjulet.commands
 dk.tandhjulet.commands.subcommands
+dk.tandhjulet.config
+dk.tandhjulet.config.annotations
+dk.tandhjulet.config.holder
+dk.tandhjulet.config.processors
+dk.tandhjulet.config.serializers
 dk.tandhjulet.enums
 dk.tandhjulet.events
 dk.tandhjulet.gui
@@ -14,6 +19,8 @@ dk.tandhjulet.huse.providers
 dk.tandhjulet.level
 dk.tandhjulet.level.operators
 dk.tandhjulet.listeners
+dk.tandhjulet.migrator
+dk.tandhjulet.migrator.migrators
 dk.tandhjulet.placeholders
 dk.tandhjulet.placeholders.replacers
 dk.tandhjulet.skript.conditions
