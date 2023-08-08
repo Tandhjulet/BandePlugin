@@ -1,6 +1,7 @@
 package dk.tandhjulet.storage;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -72,26 +73,8 @@ public class Message {
 
         String[] lines = get(path).clone();
 
-        List<String> searchFor = new LinkedList<String>() {
-            {
-                add("{0}");
-                add("{1}");
-                add("{2}");
-                add("{3}");
-                add("{4}");
-                add("{5}");
-                add("{6}");
-            }
-        };
-        String[] l;
-        if (replacements != null)
-            l = searchFor.subList(0, replacements.length).toArray(new String[0]);
-        else
-            l = null;
-
         lines = Arrays.stream(lines).map(line -> {
-            return StringUtils.replaceEach(Utils.getColored(line), l,
-                    Utils.getColored(replacements));
+            return format(Utils.getColored(line), (Object[]) Utils.getColored(replacements));
         }).collect(Collectors.toList()).toArray(new String[0]);
 
         if (action != null) {
@@ -104,6 +87,18 @@ public class Message {
         }
 
         player.sendMessage(lines);
+    }
+
+    private static String format(String string, final Object... objects) {
+        MessageFormat messageFormat;
+        try {
+            messageFormat = new MessageFormat(string);
+        } catch (final IllegalArgumentException e) {
+            Logger.severe("Invalid key " + string + ".");
+            string = string.replaceAll("\\{(\\D*?)\\}", "\\[$1\\]");
+            messageFormat = new MessageFormat(string);
+        }
+        return messageFormat.format(objects);
     }
 
     public static List<Component> getReplaced(String path, String... replacements) {
