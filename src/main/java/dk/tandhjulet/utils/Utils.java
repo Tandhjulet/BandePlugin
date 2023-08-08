@@ -45,4 +45,8 @@ public class Utils {
     public static String uncolored(final String str) {
         return ChatColor.stripColor(str);
     }
+
+    public static String kebabCase(final String str) {
+        return str.replaceAll("([A-Z])", "-$1").toLowerCase();
+    }
 }

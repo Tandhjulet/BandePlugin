@@ -6,43 +6,43 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 @ConfigSerializable
 public class TopHolder {
-    public HashMap<String, Integer> offiKills = new HashMap<>();
+    public HashMap<String, Integer> topOffiKills = new HashMap<>();
 
-    public HashMap<String, Integer> offiKills() {
-        return offiKills;
+    public HashMap<String, Integer> topOffiKills() {
+        return topOffiKills;
     }
 
-    public void offiKills(HashMap<String, Integer> offiKills) {
-        this.offiKills = offiKills;
+    public void topOffiKills(HashMap<String, Integer> topOffiKills) {
+        this.topOffiKills = topOffiKills;
     }
 
-    public HashMap<String, Integer> vagtKills = new HashMap<>();
+    public HashMap<String, Integer> topVagtKills = new HashMap<>();
 
-    public HashMap<String, Integer> vagtKills() {
-        return vagtKills;
+    public HashMap<String, Integer> topVagtKills() {
+        return topVagtKills;
     }
 
-    public void vagtKills(HashMap<String, Integer> vagtKills) {
-        this.vagtKills = vagtKills;
+    public void topVagtKills(HashMap<String, Integer> topVagtKills) {
+        this.topVagtKills = topVagtKills;
     }
 
-    public HashMap<String, Integer> bandeLevels = new HashMap<>();
+    public HashMap<String, Integer> topLevel = new HashMap<>();
 
-    public HashMap<String, Integer> bandeLevels() {
-        return bandeLevels;
+    public HashMap<String, Integer> topLevels() {
+        return topLevel;
     }
 
-    public void bandeLevels(HashMap<String, Integer> bandeLevels) {
-        this.bandeLevels = bandeLevels;
+    public void topLevels(HashMap<String, Integer> topLevel) {
+        this.topLevel = topLevel;
     }
 
-    public HashMap<String, Integer> fangeKills = new HashMap<>();
+    public HashMap<String, Integer> topFangeKills = new HashMap<>();
 
-    public HashMap<String, Integer> fangeKills() {
-        return fangeKills;
+    public HashMap<String, Integer> topFangeKills() {
+        return topFangeKills;
     }
 
-    public void fangeKills(HashMap<String, Integer> fangeKills) {
-        this.fangeKills = fangeKills;
+    public void topFangeKills(HashMap<String, Integer> topFangeKills) {
+        this.topFangeKills = topFangeKills;
     }
 }

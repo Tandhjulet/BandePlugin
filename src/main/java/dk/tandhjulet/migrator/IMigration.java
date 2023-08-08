@@ -25,6 +25,7 @@ import dk.tandhjulet.migrator.migrators.BandeMigrator;
 import dk.tandhjulet.migrator.migrators.GUIMigrator;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
+import dk.tandhjulet.utils.Utils;
 
 public interface IMigration {
     public default Map.Entry<List<File>, List<Field>> getMigrationData() {
@@ -42,6 +43,8 @@ public interface IMigration {
         }
 
         toMigrate.getValue().forEach(field -> {
+            String kebabCase = Utils.kebabCase(field.getName());
+
             try {
                 field.setAccessible(true);
 
@@ -89,7 +92,7 @@ public interface IMigration {
                         }
                     }
                 }
-                config.setUnsafeProperty(field.getName(), extractedValue);
+                config.setUnsafeProperty(kebabCase, extractedValue);
             } catch (IllegalArgumentException | IllegalAccessException | NullPointerException
                     | SerializationException e) {
                 Logger.severe("Lost data during migration... continuing.");

@@ -62,10 +62,10 @@ public class BandeTopHolder implements IConfig, Serializable {
     }
 
     public void removeBande(String id) {
-        holder.fangeKills().remove(id);
-        holder.bandeLevels().remove(id);
-        holder.offiKills().remove(id);
-        holder.vagtKills().remove(id);
+        holder.topFangeKills().remove(id);
+        holder.topLevels().remove(id);
+        holder.topOffiKills().remove(id);
+        holder.topVagtKills().remove(id);
     }
 
     public void sort() {
@@ -105,35 +105,35 @@ public class BandeTopHolder implements IConfig, Serializable {
     }
 
     public void addOffiKill(String bandeName) {
-        holder.offiKills().put(bandeName, getOffiKills(bandeName) + 1);
+        holder.topOffiKills().put(bandeName, getOffiKills(bandeName) + 1);
         config.save();
     }
 
     public Integer getOffiKills(String bandeName) {
-        return holder.offiKills().getOrDefault(bandeName, 0);
+        return holder.topOffiKills().getOrDefault(bandeName, 0);
     }
 
     public void addVagtKill(String bandeName) {
-        holder.vagtKills().put(bandeName, getVagtKills(bandeName) + 1);
+        holder.topVagtKills().put(bandeName, getVagtKills(bandeName) + 1);
         config.save();
     }
 
     public Integer getVagtKills(String bandeName) {
-        return holder.vagtKills().getOrDefault(bandeName, 0);
+        return holder.topVagtKills().getOrDefault(bandeName, 0);
     }
 
     public void setLevel(Integer setTo, String bandeName) {
-        holder.bandeLevels().put(bandeName, setTo);
+        holder.topLevels().put(bandeName, setTo);
         config.save();
     }
 
     public void addFangeKill(String bandeName) {
-        holder.fangeKills().put(bandeName, getFangeKill(bandeName) + 1);
+        holder.topFangeKills().put(bandeName, getFangeKill(bandeName) + 1);
         config.save();
     }
 
     public Integer getFangeKill(String bandeName) {
-        return holder.fangeKills().getOrDefault(bandeName, 0);
+        return holder.topFangeKills().getOrDefault(bandeName, 0);
     }
 
     @Override

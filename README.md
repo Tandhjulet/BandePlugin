@@ -19,8 +19,6 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 ---------------------------------------------------------
 
 TODO
-- Revamp Messager class
-- Migrator skal bruge kebab case
 - Test alt.
 
 ---------------------------------------------------------
