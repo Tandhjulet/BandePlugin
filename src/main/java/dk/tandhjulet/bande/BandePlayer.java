@@ -140,7 +140,7 @@ public class BandePlayer implements IConfig, Serializable {
     }
 
     public boolean hasBande() {
-        return holder.bande() != null && !holder.bande().isEmpty();
+        return getBande() != null;
     }
 
     public void setBande(String bandeName, BandeRank rank) {
