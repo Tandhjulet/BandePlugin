@@ -1,6 +1,7 @@
 package dk.tandhjulet.api;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -23,15 +24,15 @@ import dk.tandhjulet.placeholders.BandePlaceholders;
 import dk.tandhjulet.storage.FileManager;
 
 public class BandeAPI {
-    private LoadingCache<String, Bande> bandeCache;
+    private LoadingCache<String, Optional<Bande>> bandeCache;
     private LoadingCache<UUID, BandePlayer> playerCache;
 
     public BandeAPI() {
-        CacheLoader<String, Bande> bandeLoader = new CacheLoader<String, Bande>() {
+        CacheLoader<String, Optional<Bande>> bandeLoader = new CacheLoader<String, Optional<Bande>>() {
 
             @Override
-            public Bande load(String bandeName) {
-                return FileManager.getBande(bandeName);
+            public Optional<Bande> load(String bandeName) {
+                return FileManager.loadUncachedBande(bandeName);
             }
         };
         bandeCache = CacheBuilder.newBuilder().build(bandeLoader);
@@ -51,7 +52,10 @@ public class BandeAPI {
     }
 
     public void addToCache(String bandeName, Bande bande) {
-        bandeCache.put(bandeName, bande);
+        if (bandeName == null || bande == null) {
+            return;
+        }
+        bandeCache.put(bandeName, Optional.ofNullable(bande));
     }
 
     public synchronized BandePlayer getPlayer(UUID uuid) {
@@ -63,7 +67,10 @@ public class BandeAPI {
     }
 
     public Bande getIfPresent(String bande) {
-        return bandeCache.getIfPresent(bande);
+        Optional<Bande> b = bandeCache.getIfPresent(bande);
+        if (b == null)
+            return null;
+        return b.get();
     }
 
     public synchronized BandePlayer getPlayer(Player player) {
@@ -75,7 +82,8 @@ public class BandeAPI {
     }
 
     public synchronized Bande getBande(String bande) {
-        Bande b = bandeCache.getIfPresent(bande);
+        Bande b = bandeCache.getUnchecked(bande).orElse(null);
+
         if (b == null || b.isDestroyed()) {
             return null;
         }

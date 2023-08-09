@@ -25,13 +25,15 @@ public class BandePlayer implements IConfig, Serializable {
     private BandeConfig config;
     private BandePlayerHolder holder;
 
-    private transient boolean isDestroyed = false;
+    private transient boolean isDestroyed;
 
     private transient Player cachedPlayer;
     private transient ChatStatus disabled;
     private transient String previousGui;
 
     public BandePlayer(UUID base) throws Exception {
+        this.isDestroyed = false;
+
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
         if (!folder.exists() && !folder.mkdirs()) {
             throw new RuntimeException("Unable to create userdata folder!");
@@ -138,7 +140,7 @@ public class BandePlayer implements IConfig, Serializable {
     }
 
     public boolean hasBande() {
-        return holder.bande() != null;
+        return holder.bande() != null && !holder.bande().isEmpty();
     }
 
     public void setBande(String bandeName, BandeRank rank) {
@@ -153,7 +155,7 @@ public class BandePlayer implements IConfig, Serializable {
     }
 
     public Bande getBande() {
-        if (holder.bande() == null)
+        if (holder.bande() == null || holder.bande().isEmpty())
             return null;
         return BandePlugin.getAPI().getBande(holder.bande());
     }

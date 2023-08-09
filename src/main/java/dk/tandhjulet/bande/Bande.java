@@ -36,9 +36,10 @@ public class Bande implements IConfig, Serializable {
     private transient final BandeConfig config;
     private transient BandeHolder holder;
 
-    private transient boolean isDestroyed = false;
+    private transient boolean isDestroyed;
 
     public Bande(String name, UUID owner) {
+        this.isDestroyed = false;
         // Need to be included or else it wont migrate/serialize.
         new HashMap<String, String>() {
             {
@@ -58,12 +59,14 @@ public class Bande implements IConfig, Serializable {
 
         reloadConfig();
 
-        if (holder.name() == null) { // Assume first initialization
+        if (holder.name() == null && owner != null) { // Assume first initialization
             holder.name(name);
             BandePlugin.getTop().setLevel(1, getName());
             addMember(BandeRank.EJER, owner);
 
-            BandePlugin.getAPI().getPlayer(owner).setBande(name, BandeRank.EJER);
+            BandePlayer bandePlayer = BandePlugin.getAPI().getPlayer(owner);
+
+            bandePlayer.setBande(name, BandeRank.EJER);
         }
 
         config.save();

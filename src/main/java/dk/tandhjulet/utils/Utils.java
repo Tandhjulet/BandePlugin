@@ -25,6 +25,9 @@ public class Utils {
     }
 
     public static String[] getColored(final String... str) {
+        if (str == null) {
+            return new String[0];
+        }
         List<String> stringList = Arrays.stream(str).map(e -> {
             return getColored(e);
         }).collect(Collectors.toList());

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -79,8 +80,8 @@ public class FileManager {
     public static BandePlayer loadUncachedUser(final UUID uuid) {
         Player player = Bukkit.getServer().getPlayer(uuid);
 
-        BandePlayer user;
-        if ((user = BandePlugin.getAPI().getIfPresent(player)) != null) {
+        BandePlayer user = BandePlugin.getAPI().getIfPresent(player);
+        if (user != null) {
             return user;
         }
 
@@ -99,23 +100,24 @@ public class FileManager {
         }
     }
 
-    public static Bande loadUncachedBande(final String name) {
+    public static Optional<Bande> loadUncachedBande(final String name) {
 
         Bande bande;
         if ((bande = BandePlugin.getAPI().getIfPresent(name)) != null) {
-            return bande;
+            return Optional.of(bande);
         }
 
-        if (name != null) {
+        File file = FileManager.getBandeFile(name);
+        if (file.exists()) {
             bande = new Bande(name, null);
             BandePlugin.getAPI().addToCache(name, bande);
-            return bande;
+            return Optional.of(bande);
         }
-        return null;
+        return Optional.empty();
     }
 
     public static Bande getBande(final String name) {
-        final Bande bande = loadUncachedBande(name);
+        final Bande bande = loadUncachedBande(name).orElse(null);
         BandePlugin.getAPI().addToCache(name, bande);
         return bande;
     }

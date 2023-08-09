@@ -72,7 +72,7 @@ public class ClassInfos {
 
                     @Override
                     public Bande deserialize(Fields fields) throws StreamCorruptedException {
-                        return BandePlugin.getAPI().getBande(fields.getAndRemovePrimitive("bandeId", String.class));
+                        return BandePlugin.getAPI().getBande(fields.getAndRemoveObject("bandeId", String.class));
                     }
 
                     @Override
@@ -89,7 +89,7 @@ public class ClassInfos {
                     @Override
                     public Fields serialize(Bande arg0) throws NotSerializableException {
                         Fields fields = new Fields();
-                        fields.putPrimitive("bandeId", arg0.getName());
+                        fields.putObject("bandeId", arg0.getName());
                         return fields;
                     }
                 }));
@@ -149,7 +149,7 @@ public class ClassInfos {
 
                     @Override
                     public BandePlayer deserialize(Fields fields) throws StreamCorruptedException {
-                        return BandePlugin.getAPI().getPlayer(fields.getAndRemovePrimitive("playerUUID", UUID.class));
+                        return BandePlugin.getAPI().getPlayer(fields.getAndRemoveObject("playerUUID", UUID.class));
                     }
 
                     @Override
@@ -166,7 +166,7 @@ public class ClassInfos {
                     @Override
                     public Fields serialize(BandePlayer arg0) throws NotSerializableException {
                         Fields fields = new Fields();
-                        fields.putPrimitive("playerUUID", arg0.getBase().getUniqueId());
+                        fields.putObject("playerUUID", arg0.getBase().getUniqueId());
                         return fields;
                     }
                 }));
@@ -202,7 +202,7 @@ public class ClassInfos {
 
                     @Override
                     public String getVariableNamePattern() {
-                        return "banderank\\..*";
+                        return "banderank\\..*?";
                     }
 
                 }).serializer(new EnumSerializer<>(BandeRank.class)));
