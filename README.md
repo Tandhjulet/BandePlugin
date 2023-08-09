@@ -19,6 +19,7 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 ---------------------------------------------------------
 
 TODO
+- Fiks gui filerne så de bruger placeholders
 - Test alt.
 
 ---------------------------------------------------------
