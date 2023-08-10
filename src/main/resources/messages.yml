@@ -1,5 +1,6 @@
 dynamic_items:
   member_list_format: "&d&l • &8[&7{0}&8] &f{1}"
+  top_list_format: "&d#{0} &f{1}&7: &f{2}"
   no_invites: "&cIngen inviteringer"
   invites_name: "&d&l%name%"
   invites:
@@ -10,7 +11,7 @@ dynamic_items:
     - "&fAllierede: &d%amount_allies%"
   member_name_color: "&d&l"
   member_lore:
-    - "&fRank: &d%player_bande_rank%"
+    - "&fRank: &d%bandeplayer_bande_rank%"
     - "&f"
     - "&fKlik for at administrere!"
   ally_name_color: "&a&l"
@@ -36,6 +37,7 @@ dynamic_items:
     - "&fOfficer kills: &d%officerkills%"
     - "&fVagt kills: &d%vagtkills%"
     - "&fFange kills: &d%fangekills%"
+# Eneste sted du kan bruge placeholders i messages.yml.
 chat:
   bac_format:
     - "&c"

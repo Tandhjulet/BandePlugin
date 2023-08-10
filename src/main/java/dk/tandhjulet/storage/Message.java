@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -101,33 +100,11 @@ public class Message implements IConfig {
     }
 
     public static List<Component> getReplaced(String path, String... replacements) {
-        String[] lines = get(path).clone();
-        List<Component> out = new LinkedList<>();
+        List<Component> lines = Arrays.stream(get(path).clone()).map(line -> {
+            return Component.text(format(Utils.getColored(line), (Object[]) Utils.getColored(replacements)));
+        }).collect(Collectors.toList());
 
-        List<String> searchFor = new LinkedList<String>() {
-            {
-                add("{0}");
-                add("{1}");
-                add("{2}");
-                add("{3}");
-                add("{4}");
-                add("{5}");
-                add("{6}");
-            }
-        };
-
-        String[] l;
-        if (replacements != null)
-            l = searchFor.subList(0, replacements.length).toArray(new String[0]);
-        else
-            l = null;
-
-        Arrays.stream(lines).forEach(line -> {
-            out.add(Component.text(StringUtils.replaceEach(Utils.getColored(line), l,
-                    Utils.getColored(replacements))));
-        });
-
-        return out;
+        return lines;
     }
 
     public static List<Component> getPlaceholderReplaced(Bande bande, OfflinePlayer player, String path) {

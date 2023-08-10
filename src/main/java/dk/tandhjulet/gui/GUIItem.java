@@ -138,12 +138,17 @@ public class GUIItem implements Serializable {
                     if (index.incrementAndGet() == 10) {
                         break;
                     }
-                    top.add(Component.text(Utils
-                            .getColored("&d#" + index.get() + " &f" + entry.getKey() + "&7: &f" + entry.getValue())));
+
+                    top.add(Message.getReplaced("dynamic_items.top_list_format",
+                            String.valueOf(index.get()), entry.getKey(),
+                            entry.getValue().toString()).get(0));
                 }
 
                 for (Integer i = top.size() + 1; i <= 10; i++) {
-                    top.add(Component.text(Utils.getColored("&d#" + i + " &fN/A&7: &f0")));
+
+                    top.add(Message.getReplaced("dynamic_items.top_list_format",
+                            String.valueOf(i), "N/A",
+                            "0").get(0));
                 }
 
                 newItem = ItemBuilder.from(newItem).lore(top).build();
