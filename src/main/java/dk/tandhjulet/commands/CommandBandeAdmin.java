@@ -27,7 +27,7 @@ public class CommandBandeAdmin implements CommandExecutor {
             sender.sendMessage(Utils.getColored("&cForkert syntaks.", "&c/bandeadmin updatetop",
                     "&c/bandeadmin disband <bande navn>", "&c/bandeadmin reload",
                     "&c/bandeadmin bandehus (add|remove) <region navn>", "&c/itembuilder",
-                    "&c/bande editgui", "&c/bande setguiname <gui_id> <nye_navn>"));
+                    "&c/bande editgui", "&c/bandeadmin setguiname <gui_id> <nye_navn>"));
             return true;
         }
 

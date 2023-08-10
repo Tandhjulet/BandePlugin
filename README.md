@@ -25,11 +25,6 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 
 ---------------------------------------------------------
 
-TODO
-- dokumentation på alle commands
-
----------------------------------------------------------
-
 **Har du fundet en fejl i pluginnet?**
 > Rapporter den ved at oprette issue over GitHub eller tag kontakt til mig privat ved `tandhjul`.
 
