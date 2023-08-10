@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
@@ -31,6 +32,7 @@ import dk.tandhjulet.config.annotations.DeleteOnEmpty;
 import dk.tandhjulet.config.processors.DeleteOnEmptyProcessor;
 import dk.tandhjulet.config.serializers.BigDecimalSerializer;
 import dk.tandhjulet.config.serializers.GUIItemTypeSerializer;
+import dk.tandhjulet.config.serializers.ItemFlagSerializer;
 import dk.tandhjulet.config.serializers.ItemStackTypeSerializer;
 import dk.tandhjulet.gui.GUIItem;
 import dk.tandhjulet.utils.Logger;
@@ -50,6 +52,7 @@ public class BandeConfig {
             .registerAnnotatedObjects(MAPPER_FACTORY)
             .register(ItemStack.class, new ItemStackTypeSerializer())
             .register(GUIItem.class, new GUIItemTypeSerializer())
+            .register(ItemFlag.class, new ItemFlagSerializer())
             .register(BigDecimal.class, new BigDecimalSerializer())
             .build();
     File configFile;

@@ -7,10 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import dk.tandhjulet.BandePlugin;
+import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
 
-public class GUIManager {
+public class GUIManager implements IConfig {
     private final HashMap<String, GUI> guis;
 
     public GUIManager() {
@@ -43,7 +44,6 @@ public class GUIManager {
         if (missingFile) {
             Logger.warn("Kunne ikke finde en eller flere gui-filer. Indsatte standard-fil(er) som erstatning.");
         }
-
     }
 
     public GUI loadGUIFromFile(String guiName) {
@@ -71,5 +71,10 @@ public class GUIManager {
 
     public void removeGui(final String id) {
         this.guis.remove(id);
+    }
+
+    @Override
+    public void reloadConfig() {
+        reload();
     }
 }

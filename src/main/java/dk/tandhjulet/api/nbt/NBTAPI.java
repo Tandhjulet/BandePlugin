@@ -12,18 +12,9 @@ public class NBTAPI {
         new NBTContainer("{a:1}").toString();
     }
 
-    public static ItemStack getItemStackWithNBT(ItemStack stack, NBTCompound comp) {
+    public static ItemStack addNBTToItemStack(ItemStack stack, NBTCompound comp) {
         NBTContainer nbt = NBTItem.convertItemtoNBT(stack);
-
-        if (comp.hasTag("tag")) {
-            if (comp.hasTag("id") && !nbt.getString("id").equalsIgnoreCase(comp.getString("id"))) {
-                return stack;
-            }
-            nbt.mergeCompound(comp);
-        } else {
-            nbt.getOrCreateCompound("tag").mergeCompound(comp);
-        }
-
+        nbt.mergeCompound(comp);
         ItemStack newItem = NBTItem.convertNBTtoItem(nbt);
         return newItem;
     }

@@ -28,6 +28,9 @@ public class BandeAPI {
     private LoadingCache<UUID, BandePlayer> playerCache;
 
     public BandeAPI() {
+        // if cache is ever changed to that elements get evicted,
+        // beware that Bande.isDestroyed field is set to false upon object construction
+        // which might cause damage if bande is disbanded but file isn't yet removed.
         CacheLoader<String, Optional<Bande>> bandeLoader = new CacheLoader<String, Optional<Bande>>() {
 
             @Override

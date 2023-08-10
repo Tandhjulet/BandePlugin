@@ -26,6 +26,9 @@ public class HeadDataBaseAPI implements Listener {
 
     @SuppressWarnings("deprecation")
     public static ItemStack getFromBase(ItemStack skull, String id) {
+        if (id == null || skull == null) {
+            return skull;
+        }
         UUID uuid = new UUID(id.hashCode(), id.hashCode());
 
         return Bukkit.getUnsafe().modifyItemStack(skull,

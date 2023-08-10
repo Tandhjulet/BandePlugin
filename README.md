@@ -19,17 +19,14 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 ---------------------------------------------------------
 
 TODO
-- fiks gui filerne så de bruger placeholders
-- evt. så man kan lave guis igennem .yml filerne?
+- dokumentation på alle commands
+
+???
 - medlem liste (allies kommer på, man kommer på 2 gange, etc.)
     - [bør ike være muligt?](src\main\java\dk\tandhjulet\gui\DynamicGUI.java#L77)
 - ingen inviteringer forsvinder ikke
     - [bør ikke være muligt?](src\main\java\dk\tandhjulet\gui\GUI.java#L213)
-
-TEST
-- fjern slettede bander fra top filen
-- bande top faktisk virker
-- config "member_list_format" & "begraensninger_lore" virker ikke
+- config "member_list_format" & "begraensninger_lore" opdaterer ikke (virker fint for mig?)
 
 ---------------------------------------------------------
 

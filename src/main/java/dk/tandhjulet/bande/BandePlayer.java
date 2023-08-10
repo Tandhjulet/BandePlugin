@@ -34,9 +34,9 @@ public class BandePlayer implements IConfig, Serializable {
     public BandePlayer(UUID base) throws Exception {
         this.isDestroyed = false;
 
-        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "players");
         if (!folder.exists() && !folder.mkdirs()) {
-            throw new RuntimeException("Unable to create userdata folder!");
+            throw new RuntimeException("Unable to create players folder!");
         }
 
         File userFile = FileManager.getUserFile(base);
@@ -56,9 +56,9 @@ public class BandePlayer implements IConfig, Serializable {
     }
 
     public BandePlayer(Player base) {
-        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "userdata");
+        final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "players");
         if (!folder.exists() && !folder.mkdirs()) {
-            throw new RuntimeException("Unable to create userdata folder!");
+            throw new RuntimeException("Unable to create players folder!");
         }
 
         config = new BandeConfig(new File(folder, base.getUniqueId() + ".yml"));

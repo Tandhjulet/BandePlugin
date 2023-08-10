@@ -27,6 +27,10 @@ public class CommandBande implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            Logger.warn("You cannot access this as console.");
+            return false;
+        }
         BandePlayer bandePlayer = BandePlugin.getAPI().getPlayer((Player) sender);
 
         if (args.length == 0) {
@@ -66,11 +70,6 @@ public class CommandBande implements CommandExecutor {
         }
 
         // bande required for following commands:
-
-        if (!(sender instanceof Player)) {
-            Logger.warn("You cannot access this as console.");
-            return false;
-        }
 
         if (!bandePlayer.hasBande()) {
             Message.sendReplaced(bandePlayer, "bande_command.invalid_command", null);
