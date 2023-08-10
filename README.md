@@ -1,3 +1,10 @@
+### Dokumentation for pluginnet kan findes her
+<a href="https://tandhjulet.gitbook.io/bande-plugin-docs/">Plugin Docs</a>
+<br>
+<a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
+
+---------------------------------------------------------
+
 **Dette plugin bruger semantic versioning!**
 
 Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret forhøjes, vil den version af pluginnet ikke være kompatibel med tidligere versioner. [Du kan læse mere om semantic versioning her](https://semver.org/#summary)!
@@ -21,16 +28,9 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 TODO
 - dokumentation på alle commands
 
-???
-- medlem liste (allies kommer på, man kommer på 2 gange, etc.)
-    - [bør ikke være muligt?](src/main/java/dk/tandhjulet/gui/DynamicGUI.java#L77)
-- ingen inviteringer forsvinder ikke
-    - [bør ikke være muligt?](src/main/java/dk/tandhjulet/gui/GUI.java#L213)
-- config "member_list_format" & "begraensninger_lore" opdaterer ikke (virker fint for mig?)
-
 ---------------------------------------------------------
 
-**_Har du fundet en fejl i pluginnet?_**
+**Har du fundet en fejl i pluginnet?**
 > Rapporter den ved at oprette issue over GitHub eller tag kontakt til mig privat ved `tandhjul`.
 
 ---------------------------------------------------------
@@ -40,7 +40,7 @@ TODO
 | Config                              	| &#9745; 	|
 | Change messages                     	| &#9745; 	|
 | Top                                 	| &#9745; 	|
-| Edit GUIs                           	| &#9745; 	|
+| Rediger bare GUIs                     | &#9745; 	|
 | Search Bander                       	| &#9745; 	|
 | Allys                               	| &#9745; 	|
 | Rivals                              	| &#9745; 	|
@@ -56,18 +56,3 @@ TODO
 | API                                 	| &#9745; 	|
 | Automatic update checker          	| &#9745; 	|
 | Plug-and-play                         | &#9745; 	|
-
----------------------------------------------------------
-
-**Dokumentation for pluginnet kan findes her:**
-<br>
-<a href="https://tandhjulet.gitbook.io/bande-plugin-docs/">Plugin Docs</a>
-<br>
-<a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
-
-------
-
-**7432 lines of beauty**
-
-
-![Picture of 7432 lines of beauty](https://cdn.discordapp.com/attachments/836315762880675890/1102670819290775572/image.png)
