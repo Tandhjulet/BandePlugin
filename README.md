@@ -23,7 +23,7 @@ TODO
 
 ???
 - medlem liste (allies kommer på, man kommer på 2 gange, etc.)
-    - [bør ike være muligt?](src\main\java\dk\tandhjulet\gui\DynamicGUI.java#L77)
+    - [bør ikke være muligt?](src\main\java\dk\tandhjulet\gui\DynamicGUI.java#L77)
 - ingen inviteringer forsvinder ikke
     - [bør ikke være muligt?](src\main\java\dk\tandhjulet\gui\GUI.java#L213)
 - config "member_list_format" & "begraensninger_lore" opdaterer ikke (virker fint for mig?)
