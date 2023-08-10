@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
+import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.placeholders.BandePlaceholders;
 import dk.tandhjulet.utils.Logger;
 import dk.tandhjulet.utils.Utils;
@@ -30,7 +31,7 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 
-public class Message {
+public class Message implements IConfig {
     private static HashMap<String, String[]> messages;
 
     public static void init() {
@@ -189,5 +190,10 @@ public class Message {
 
     public static void send(final Player player, final String path) {
         player.sendMessage(get(path));
+    }
+
+    @Override
+    public void reloadConfig() {
+        init();
     }
 }

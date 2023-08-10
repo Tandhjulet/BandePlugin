@@ -126,6 +126,7 @@ public class BandePlugin extends JavaPlugin {
         configList.add(config);
         configList.add(inventoryDataHolder);
         configList.add(top);
+        configList.add(new Message());
 
         PluginManager pm = Bukkit.getPluginManager();
         if (config.getPrefferedProvider().equalsIgnoreCase("auto")) {
