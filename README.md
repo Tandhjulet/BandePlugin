@@ -35,7 +35,7 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 | Config                              	| &#9745; 	|
 | Change messages                     	| &#9745; 	|
 | Top                                 	| &#9745; 	|
-| Rediger bare GUIs                     | &#9745; 	|
+| Redigerbare GUIs                      | &#9745; 	|
 | Search Bander                       	| &#9745; 	|
 | Allys                               	| &#9745; 	|
 | Rivals                              	| &#9745; 	|
@@ -45,6 +45,7 @@ Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret for
 | Levels                              	| &#9745; 	|
 | Bande huse (PrisonCells & AreaShop) 	| &#9745; 	|
 | Admin Commands                      	| &#9745; 	|
+| Bande Område                      	| &#9745; 	|
 | Custom Skript Syntaxes              	| &#9745; 	|
 | Automatic Update Checker            	| &#9745; 	|
 | Java docs                           	| &#9745; 	|
