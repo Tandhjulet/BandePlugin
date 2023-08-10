@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.Bande;
 import dk.tandhjulet.bande.BandePlayer;
+import dk.tandhjulet.enums.Sort;
 import dk.tandhjulet.storage.Message;
 import dk.tandhjulet.utils.Utils;
 
@@ -31,7 +32,7 @@ public class CommandBandeAdmin implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("updatetop")) {
-            BandePlugin.getTop().sort();
+            BandePlugin.getTop().sort(Sort.ALL);
             sender.sendMessage("Updated top.");
         }
 

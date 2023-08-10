@@ -33,8 +33,6 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 public class Message {
     private static HashMap<String, String[]> messages;
 
-    // TODO: revamp this.
-
     public static void init() {
         messages = new HashMap<>();
 

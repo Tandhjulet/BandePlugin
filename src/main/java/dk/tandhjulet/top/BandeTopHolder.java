@@ -2,8 +2,11 @@ package dk.tandhjulet.top;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 
@@ -11,6 +14,7 @@ import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.config.BandeConfig;
 import dk.tandhjulet.config.IConfig;
 import dk.tandhjulet.config.holder.TopHolder;
+import dk.tandhjulet.enums.Sort;
 import dk.tandhjulet.migrator.Migrate;
 import dk.tandhjulet.storage.FileManager;
 import dk.tandhjulet.utils.Logger;
@@ -22,6 +26,11 @@ public class BandeTopHolder implements IConfig, Serializable {
 
     private BandeConfig config;
     private TopHolder holder;
+
+    private Map<String, Integer> sortedFangeKills;
+    private Map<String, Integer> sortedVagtKills;
+    private Map<String, Integer> sortedOffiKills;
+    private Map<String, Integer> sortedLevels;
 
     public BandeTopHolder() {
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "data");
@@ -42,23 +51,23 @@ public class BandeTopHolder implements IConfig, Serializable {
     public void init() {
         BandePlugin.scheduleSyncRepeatingTask(() -> {
             Bukkit.broadcastMessage(Utils.getColored(BandePlugin.getConfiguration().getTopPreUpdateMessage()));
-            sortOffiKills();
+            sort(Sort.OFFICER_KILLS);
         }, 15 * 60 * 20L);
 
         BandePlugin.scheduleSyncRepeatingTask(() -> {
-            sortVagtKills();
+            sort(Sort.VAGT_KILLS);
         }, 15 * 60 * 20L + 1);
 
         BandePlugin.scheduleSyncRepeatingTask(() -> {
-            sortLevels();
+            sort(Sort.LEVELS);
         }, 15 * 60 * 20L + 2);
 
         BandePlugin.scheduleSyncRepeatingTask(() -> {
-            sortFangeKills();
+            sort(Sort.FANGE_KILLS);
             Bukkit.broadcastMessage(Utils.getColored(BandePlugin.getConfiguration().getTopAfterUpdateMessage()));
         }, 15 * 60 * 20L + 3);
 
-        sort();
+        sort(Sort.ALL);
     }
 
     public void removeBande(String id) {
@@ -66,42 +75,51 @@ public class BandeTopHolder implements IConfig, Serializable {
         holder.topLevels().remove(id);
         holder.topOffiKills().remove(id);
         holder.topVagtKills().remove(id);
+
+        config.save();
     }
 
-    public void sort() {
-        sortFangeKills();
-        sortLevels();
-        sortOffiKills();
-        sortVagtKills();
+    public void sort(Sort toSort) {
+        switch (toSort) {
+            case FANGE_KILLS:
+                sortedFangeKills = sort(holder.topFangeKills());
+                break;
+            case LEVELS:
+                sortedLevels = sort(holder.topLevels());
+                break;
+            case OFFICER_KILLS:
+                sortedOffiKills = sort(holder.topOffiKills());
+                break;
+            case VAGT_KILLS:
+                sortedVagtKills = sort(holder.topVagtKills());
+                break;
+            case ALL:
+                sortedFangeKills = sort(holder.topFangeKills());
+                sortedLevels = sort(holder.topLevels());
+                sortedOffiKills = sort(holder.topOffiKills());
+                sortedVagtKills = sort(holder.topVagtKills());
+        }
     }
 
-    // TODO: implement this
-    private void sortFangeKills() {
-    }
-
-    private void sortLevels() {
-    }
-
-    private void sortOffiKills() {
-    }
-
-    private void sortVagtKills() {
+    private Map<String, Integer> sort(final Map<String, Integer> toSort) {
+        return toSort.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
     }
 
     public Map<String, Integer> getSortedOffiKills() {
-        return null;
+        return sortedOffiKills;
     }
 
     public Map<String, Integer> getSortedVagtKills() {
-        return null;
+        return sortedVagtKills;
     }
 
     public Map<String, Integer> getSortedLevels() {
-        return null;
+        return sortedLevels;
     }
 
     public Map<String, Integer> getSortedFangeKills() {
-        return null;
+        return sortedFangeKills;
     }
 
     public void addOffiKill(String bandeName) {
