@@ -131,6 +131,9 @@ public class GUIItem implements Serializable {
                 else if (tag.equalsIgnoreCase("bande-top-fangekills-item"))
                     map = BandePlugin.getTop().getSortedFangeKills();
 
+                Logger.info(tag);
+                Logger.info(item.getItemMeta().getDisplayName());
+
                 List<Component> top = new LinkedList<>();
                 AtomicInteger index = new AtomicInteger(0);
 

@@ -27,10 +27,10 @@ public class BandeTopHolder implements IConfig, Serializable {
     private BandeConfig config;
     private TopHolder holder;
 
-    private Map<String, Integer> sortedFangeKills;
-    private Map<String, Integer> sortedVagtKills;
-    private Map<String, Integer> sortedOffiKills;
-    private Map<String, Integer> sortedLevels;
+    private Map<String, Integer> sortedFangeKills = new HashMap<>();
+    private Map<String, Integer> sortedVagtKills = new HashMap<>();
+    private Map<String, Integer> sortedOffiKills = new HashMap<>();
+    private Map<String, Integer> sortedLevels = new HashMap<>();
 
     public BandeTopHolder() {
         final File folder = new File(BandePlugin.getPlugin().getDataFolder(), "data");
@@ -45,9 +45,10 @@ public class BandeTopHolder implements IConfig, Serializable {
 
         reloadConfig();
         config.save();
+
+        init();
     }
 
-    @Deprecated
     public void init() {
         BandePlugin.scheduleSyncRepeatingTask(() -> {
             Bukkit.broadcastMessage(Utils.getColored(BandePlugin.getConfiguration().getTopPreUpdateMessage()));
