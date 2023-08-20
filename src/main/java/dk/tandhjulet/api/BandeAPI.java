@@ -76,7 +76,9 @@ public class BandeAPI {
         return b.get();
     }
 
-    public synchronized BandePlayer getPlayer(Player player) {
+    public BandePlayer getPlayer(Player player) {
+        if (player == null)
+            return null;
         BandePlayer p = playerCache.getUnchecked(player.getUniqueId());
         if (p == null || p.isDestroyed()) {
             return null;
@@ -84,7 +86,7 @@ public class BandeAPI {
         return p;
     }
 
-    public synchronized Bande getBande(String bande) {
+    public Bande getBande(String bande) {
         Bande b = bandeCache.getUnchecked(bande).orElse(null);
 
         if (b == null || b.isDestroyed()) {
