@@ -77,7 +77,7 @@ public class Config implements IConfig {
     }
 
     public List<String> getOfficerGroup() {
-        return config.getList("vagt_group", String.class);
+        return config.getList("officer_group", String.class);
     }
 
     public String getMemberListFormat() {
