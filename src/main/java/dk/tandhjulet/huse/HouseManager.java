@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import dk.tandhjulet.BandePlugin;
+import dk.tandhjulet.enums.Provider;
 import dk.tandhjulet.huse.listeners.AreaShopRegionListeners;
 import dk.tandhjulet.huse.listeners.PrisonCellsRegionListeners;
 import dk.tandhjulet.huse.providers.AreaShopAPI;
@@ -17,22 +18,22 @@ public class HouseManager {
     public Boolean enabled;
     public IProvider provider;
 
-    public HouseManager(String provider) {
-        if (provider == null) {
+    public HouseManager(Provider provider) {
+        if (provider == Provider.UNKNOWN) {
             Logger.warn("Fandt intet celle-plugin. (Kun AreaShop og Plexhost's PrisonCells understøttes)");
             Logger.warn("Slår bande-huse fra...");
             enabled = false;
             return;
         }
 
-        if (provider.equalsIgnoreCase("cells")) {
+        if (provider == Provider.PRISON_CELLS) {
             this.provider = new PrisonCellsAPI();
             Logger.info("Bruger Cells til bande huse...");
 
             BandePlugin.getPlugin().getServer().getPluginManager().registerEvents(new PrisonCellsRegionListeners(),
                     BandePlugin.getPlugin());
             enabled = true;
-        } else if (provider.equalsIgnoreCase("areashop")) {
+        } else if (provider == Provider.AREASHOP) {
             this.provider = new AreaShopAPI();
             Logger.info("Bruger AreaShop til bande huse...");
             BandePlugin.getPlugin().getServer().getPluginManager().registerEvents(new AreaShopRegionListeners(),

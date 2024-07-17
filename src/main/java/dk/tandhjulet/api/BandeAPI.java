@@ -25,7 +25,7 @@ import dk.tandhjulet.storage.FileManager;
 
 public class BandeAPI {
     private LoadingCache<String, Optional<Bande>> bandeCache;
-    private LoadingCache<UUID, BandePlayer> playerCache;
+    private LoadingCache<UUID, Optional<BandePlayer>> playerCache;
 
     public BandeAPI() {
         // if cache is ever changed to that elements get evicted,
@@ -40,10 +40,10 @@ public class BandeAPI {
         };
         bandeCache = CacheBuilder.newBuilder().build(bandeLoader);
 
-        CacheLoader<UUID, BandePlayer> playerLoader = new CacheLoader<UUID, BandePlayer>() {
+        CacheLoader<UUID, Optional<BandePlayer>> playerLoader = new CacheLoader<UUID, Optional<BandePlayer>>() {
 
             @Override
-            public BandePlayer load(UUID uuid) {
+            public Optional<BandePlayer> load(UUID uuid) {
                 return FileManager.loadUncachedUser(uuid);
             }
         };
@@ -51,7 +51,7 @@ public class BandeAPI {
     }
 
     public void addToCache(Player player, BandePlayer bandeplayer) {
-        playerCache.put(player.getUniqueId(), bandeplayer);
+        playerCache.put(player.getUniqueId(), Optional.ofNullable(bandeplayer));
     }
 
     public void addToCache(String bandeName, Bande bande) {
@@ -62,12 +62,22 @@ public class BandeAPI {
     }
 
     public synchronized BandePlayer getPlayer(UUID uuid) {
-        return playerCache.getUnchecked(uuid);
+        BandePlayer p = playerCache.getUnchecked(uuid).orElse(null);
+
+        if (p == null || p.isDestroyed()) {
+            return null;
+        }
+        return p;
     }
 
     public BandePlayer getIfPresent(Player player) {
-        return playerCache.getIfPresent(player);
+        Optional<BandePlayer> p = playerCache.getIfPresent(player.getUniqueId());
+        if (p == null)
+            return null;
+        return p.get();
     }
+
+    // TODO: test this.
 
     public Bande getIfPresent(String bande) {
         Optional<Bande> b = bandeCache.getIfPresent(bande);
@@ -79,11 +89,7 @@ public class BandeAPI {
     public BandePlayer getPlayer(Player player) {
         if (player == null)
             return null;
-        BandePlayer p = playerCache.getUnchecked(player.getUniqueId());
-        if (p == null || p.isDestroyed()) {
-            return null;
-        }
-        return p;
+        return getPlayer(player.getUniqueId());
     }
 
     public Bande getBande(String bande) {

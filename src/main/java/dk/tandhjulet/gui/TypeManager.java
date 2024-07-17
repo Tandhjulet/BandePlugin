@@ -128,7 +128,7 @@ public class TypeManager {
 
             player.getBande().removeAllySkade();
             Message.sendReplaced(player, "ally.ally-skade-bought", null,
-                    new Integer(100 - player.getBande().getAllySkade()).toString());
+                    String.valueOf(100 - player.getBande().getAllySkade()));
         });
 
         map.put("bande-omraeder-menu", (e) -> {
@@ -190,7 +190,7 @@ public class TypeManager {
 
             player.getBande().removeBandeSkade();
             Message.sendReplaced(player, "bande.bande-skade-bought", null,
-                    new Integer(100 - player.getBande().getBandeSkade()).toString());
+                    String.valueOf(100 - player.getBande().getBandeSkade()));
         });
 
         map.put("bande-hus-menu", (e) -> {

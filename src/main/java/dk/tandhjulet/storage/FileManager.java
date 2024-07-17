@@ -77,26 +77,26 @@ public class FileManager {
         return new GUI(name, BandePlugin.getInventoryDataHolder().getSize(name));
     }
 
-    public static BandePlayer loadUncachedUser(final UUID uuid) {
+    public static Optional<BandePlayer> loadUncachedUser(final UUID uuid) {
         Player player = Bukkit.getServer().getPlayer(uuid);
 
         BandePlayer user = BandePlugin.getAPI().getIfPresent(player);
         if (user != null) {
-            return user;
+            return Optional.of(user);
         }
 
         if (player != null) {
             user = new BandePlayer(player);
             BandePlugin.getAPI().addToCache(player, user);
-            return user;
+            return Optional.of(user);
         }
 
         try {
             user = new BandePlayer(uuid);
             BandePlugin.getAPI().addToCache(player, user);
-            return user;
+            return Optional.of(user);
         } catch (Exception e) {
-            return null;
+            return Optional.empty();
         }
     }
 

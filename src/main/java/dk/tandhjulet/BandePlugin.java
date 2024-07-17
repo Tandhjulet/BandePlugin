@@ -20,6 +20,7 @@ import dk.tandhjulet.commands.CommandBande;
 import dk.tandhjulet.commands.CommandBandeAdmin;
 import dk.tandhjulet.commands.CommandItemBuilder;
 import dk.tandhjulet.config.IConfig;
+import dk.tandhjulet.enums.Provider;
 import dk.tandhjulet.gui.GUIManager;
 import dk.tandhjulet.gui.InvDataHolder;
 import dk.tandhjulet.gui.TypeManager;
@@ -131,17 +132,16 @@ public class BandePlugin extends JavaPlugin {
 
         PluginManager pm = Bukkit.getPluginManager();
         if (config.getPrefferedProvider().equalsIgnoreCase("auto")) {
-            if (pm.getPlugin("Cells") != null && pm.getPlugin("Cells").isEnabled()) {
-                houseManager = new HouseManager("Cells");
-            } else if (pm.getPlugin("PrisonCells") != null && pm.getPlugin("PrisonCells").isEnabled()) {
-                houseManager = new HouseManager("Cells");
+            if (pm.getPlugin("Cells") != null && pm.getPlugin("Cells").isEnabled()
+                    || pm.getPlugin("PrisonCells") != null && pm.getPlugin("PrisonCells").isEnabled()) {
+                houseManager = new HouseManager(Provider.PRISON_CELLS);
             } else if (pm.getPlugin("AreaShop") != null && pm.getPlugin("AreaShop").isEnabled()) {
-                houseManager = new HouseManager("areashop");
+                houseManager = new HouseManager(Provider.AREASHOP);
             } else {
-                houseManager = new HouseManager(null);
+                houseManager = new HouseManager(Provider.UNKNOWN);
             }
         } else {
-            houseManager = new HouseManager(config.getPrefferedProvider());
+            houseManager = new HouseManager(Provider.get((config.getPrefferedProvider())));
         }
 
         this.getCommand("bande").setExecutor(new CommandBande());

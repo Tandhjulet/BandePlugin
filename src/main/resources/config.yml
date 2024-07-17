@@ -37,8 +37,7 @@ vagt_group:
   - "vagt"
 officer_group:
   - "officer"
-preferred_celle_plugin: auto # Nuværende godtagede værdier er 'auto', 'AreaShop', 'Cells' / 'PrisonCells' (Det plugin som plexhost har lavet - vælg det som der står når bu bruger /pl.).
-                             # Bemærk at det er case-sensitivt (den er IKKE ligeglad med om tingene står med stort eller småt. Skriv det som det står ovenover.)
+preferred_celle_plugin: auto # Nuværende godtagede værdier er 'auto', 'AreaShop', 'Cells' / 'PrisonCells'
 cooldowns: # Alle cooldownsne er i millisekunder. For at lave sekunder om til millisekunder skal du gange med 1000.
   speed-buff-cooldown: 900000 # 15 minutter
   strength-buff-cooldown: 1800000 # 30 minutter

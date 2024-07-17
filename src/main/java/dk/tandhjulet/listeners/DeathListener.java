@@ -9,6 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import dk.tandhjulet.BandePlugin;
 import dk.tandhjulet.bande.BandePlayer;
+import dk.tandhjulet.utils.Logger;
 
 public class DeathListener implements Listener {
 
@@ -22,11 +23,17 @@ public class DeathListener implements Listener {
 
         List<String> groups = Arrays.asList(BandePlugin.getChat().getPlayerGroups(e.getEntity()));
 
+        Logger.info(groups.toArray(new String[0]));
+
         List<String> vagtGroups = BandePlugin.getConfiguration().getVagtGroup();
         vagtGroups.retainAll(groups);
 
+        Logger.info(vagtGroups.toArray(new String[0]));
+
         List<String> officerGroup = BandePlugin.getConfiguration().getOfficerGroup();
         officerGroup.retainAll(groups);
+
+        Logger.info(officerGroup.toArray(new String[0]));
 
         if (killer.hasBande()) {
             if (officerGroup.size() >= 1) {
