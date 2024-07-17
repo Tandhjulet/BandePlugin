@@ -1,13 +1,9 @@
+### En større refaktoring af koden er igang. Ødelæggende ændringer kan forekomme.
+
 ### Dokumentation for pluginnet kan findes her
 <a href="https://tandhjulet.gitbook.io/bande-plugin-docs/">Plugin Docs</a>
 <br>
 <a href="https://tandhjulet.github.io/BandePlugin/">Java Docs</a>
-
----------------------------------------------------------
-
-**Dette plugin bruger semantic versioning!**
-
-Vigtigst af alt betyder det, at hver gang det første tal i version-nummeret forhøjes, vil den version af pluginnet ikke være kompatibel med tidligere versioner. [Du kan læse mere om semantic versioning her](https://semver.org/#summary)!
 
 ---------------------------------------------------------
 
