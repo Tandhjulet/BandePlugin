@@ -26,24 +26,38 @@ public class HouseManager {
             return;
         }
 
-        if (provider == Provider.PRISON_CELLS) {
+        else if (provider == Provider.CUSTOM) {
+            Logger.info("Provider sat til custom. Afventer setProvider, og deaktiverer imellemtiden bandehuse.");
+            enabled = false;
+            return;
+        }
+
+        else if (provider == Provider.PRISON_CELLS) {
             this.provider = new PrisonCellsAPI();
             Logger.info("Bruger Cells til bande huse...");
 
             BandePlugin.getPlugin().getServer().getPluginManager().registerEvents(new PrisonCellsRegionListeners(),
                     BandePlugin.getPlugin());
             enabled = true;
+
         } else if (provider == Provider.AREASHOP) {
             this.provider = new AreaShopAPI();
             Logger.info("Bruger AreaShop til bande huse...");
             BandePlugin.getPlugin().getServer().getPluginManager().registerEvents(new AreaShopRegionListeners(),
                     BandePlugin.getPlugin());
             enabled = true;
+
         } else {
             Logger.warn("Fandt intet celle-plugin. (Kun AreaShop og Plexhost's PrisonCells understøttes)");
             Logger.warn("Slår bande-huse fra...");
             enabled = false;
         }
+    }
+
+    public void setProvider(IProvider provider) {
+        Logger.info("Provider sat. Genaktiverer bande huse.");
+        this.provider = provider;
+        this.enabled = true;
     }
 
     public List<String> getAvailableRegions(World world) {

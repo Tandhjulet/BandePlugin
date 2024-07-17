@@ -2,6 +2,7 @@ package dk.tandhjulet.enums;
 
 public enum Provider {
     UNKNOWN,
+    CUSTOM,
     AREASHOP,
     PRISON_CELLS;
 
